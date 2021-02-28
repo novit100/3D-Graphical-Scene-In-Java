@@ -18,7 +18,7 @@ public class Payroll {
 		//	if((genericArray[i].getClass().getSimpleName())!=" BasePlusCommissionEmployee") {
 			if(i<2) {
 				
-				System.out.println(genericArray[i]+" "+"333333333");	
+				System.out.println(genericArray[i]+" ");	
 				System.out.println(df.format(genericArray[i].earnings()));
 				
 			}
