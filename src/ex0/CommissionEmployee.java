@@ -5,6 +5,9 @@ public class CommissionEmployee extends Employee {
 	int commision;
 public CommissionEmployee(String fN, String lN, int id_, float grossSales, int commision) {
 		super(fN, lN, id_);
+		if (grossSales<0||commision<0)
+			throw new IllegalArgumentException("the wages cannot be a negative number");
+		
 		this.grossSales = grossSales;
 		this.commision = commision;
 	}
@@ -19,9 +22,25 @@ public double earnings() {
 	}
 @Override
 public String toString() {
-	return super.toString()+"\nCommissionEmployee grossSales=" + grossSales + ", commision=" + commision;
+	return super.toString()+"\nCommissionEmployee grossSales=" + grossSales + ", commision=" + commision + "]";
 }
 
+public float getGrossSales() {
+	if (grossSales<0)
+		throw new IllegalArgumentException("the grossSales cannot be a negative number");
+	return grossSales;
+}
+public void setGrossSales(float grossSales) {
+	this.grossSales = grossSales;
+}
+public int getCommision() {
+	if (commision<0)
+		throw new IllegalArgumentException(" cannot be a negative number");
+	return commision;
+}
+public void setCommision(int commision) {
+	this.commision = commision;
+}
 @Override
 public boolean equals(Object obj) {
 	if (this == obj)

@@ -12,6 +12,8 @@ public class HourlyEmployee extends Employee {
 
 	public HourlyEmployee(String fN, String lN, int id_,float Wages_,int Hours_) {
 		super(fN,lN,id_);
+		if (Wages_<0||Hours_<0)
+			throw new IllegalArgumentException("the wages cannot be a negative number");
 		wages=Wages_;
 		hours=Hours_;
 	}
@@ -27,7 +29,7 @@ public class HourlyEmployee extends Employee {
 
 	public void setWages(float wages) {
 		if (wages<0)
-		//	throw UserException.InvalidValue("");
+		throw new IllegalArgumentException("the wages cannot be a negative number");
 		this.wages = wages;
 	}
 
@@ -36,6 +38,8 @@ public class HourlyEmployee extends Employee {
 	}
 
 	public void setHours(int hours) {
+		if (wages<0)
+			throw new IllegalArgumentException("the hours cannot be a negative number");
 		this.hours = hours;
 	}
 
@@ -46,7 +50,7 @@ public class HourlyEmployee extends Employee {
 	}
 
 	
- 
+  
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

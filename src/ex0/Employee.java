@@ -6,6 +6,10 @@ public abstract class Employee {
 	String lastName;
 	int id;
 	Employee(String fN,String lN,int id_){
+		if (id_<0)
+			throw new IllegalArgumentException(" cannot be a negative number");
+		if (firstName==""||firstName==" "||lastName==""||lastName==" ")
+			throw new IllegalArgumentException("needs to contain some name");
 		firstName=fN;
 		lastName=lN;
 		id=id_;
@@ -16,9 +20,13 @@ public abstract class Employee {
 		id=0;
 	}
 	String get_firstName() {
+		if (firstName==""||firstName==" ")
+			throw new IllegalArgumentException("needs to contain some name");
 		return firstName;
 	}
 	String get_lastName() {
+		if (lastName==""||lastName==" ")
+			throw new IllegalArgumentException("needs to contain some name");
 		return lastName;
 	}
 	int get_id() {
