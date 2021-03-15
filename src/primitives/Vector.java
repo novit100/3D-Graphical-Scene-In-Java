@@ -59,16 +59,39 @@ public class Vector {
 		Vector v=new Vector(X,Y, Z);
 		return v;
 	}
-	//public double dotProduct(Vector v) {
+	public double dotProduct(Vector v) {
+		double X=(this.head.x.coord)*(v.head.x.coord);
+		double Y=(this.head.y.coord)*(v.head.y.coord);
+		double Z=this.head.z.coord*v.head.z.coord;
+		double sum=X+Y+Z;
+		return sum;
 
-
-	//}
+	}
 	public Vector substract(Vector v) {
 	
+	double X=this.head.x.coord-v.head.x.coord;
+	double Y=this.head.y.coord-v.head.y.coord;
+	double Z=this.head.z.coord-v.head.z.coord;
+	Vector v_new=new Vector(X,Y,Z);
+	return v_new;
+	
 	}
-	//public Vector crossProduct(Vector v) {
-
-	//}
+	public Vector add(Vector v) {
+		
+	double X=this.head.x.coord+v.head.x.coord;
+	double Y=this.head.y.coord+v.head.y.coord;
+	double Z=this.head.z.coord+v.head.z.coord;
+	Vector v_new=new Vector(X,Y,Z);
+	return v_new;
+	
+	}
+	public Vector crossProduct(Vector v) {
+		double X=this.head.y.coord*v.head.z.coord-this.head.z.coord*v.head.y.coord;
+		double Y=this.head.z.coord*v.head.x.coord-this.head.x.coord*v.head.z.coord;
+		double Z=this.head.x.coord+v.head.y.coord-this.head.y.coord*v.head.x.coord;
+		Vector v_new=new Vector(X,Y,Z);
+		return v_new;
+	}
 	public double lengthSquared () {
 		double length_s=( this.head.x.coord*this.head.x.coord + this.head.y.coord*this.head.y.coord+this.head.z.coord*this.head.z.coord );
 		return length_s;
