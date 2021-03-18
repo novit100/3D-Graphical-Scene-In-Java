@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * @author user
+ * @author Ronni & Nov
  *
  */
 public class CylinderTests {

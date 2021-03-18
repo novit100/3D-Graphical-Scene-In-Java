@@ -53,10 +53,8 @@ public class Vector {
 	}
 
 	public Vector scale(double sc) {
-		double X=(this.head.x.coord)*sc;
-		double Y=(this.head.y.coord)*sc;
-		double Z=(this.head.z.coord)*sc;
-		Vector v=new Vector(X,Y, Z);
+		
+		Vector v=new Vector((this.head.x.coord)*sc,(this.head.y.coord)*sc, (this.head.z.coord)*sc);
 		return v;
 	}
 	public double dotProduct(Vector v) {
