@@ -20,10 +20,14 @@ public class Point3D {
 		this.z = new Coordinate(z);
 		
 	}
+	
+	public double getX() {
+		return x.coord;
+	}
 	/**- Vector subtraction - receives a second point in the parameter,
 	 *  returns a vector from the second point to the point on which the operation is performed*/
 	public Vector subtract(Point3D p){
-		Point3D new_p=new Point3D(p.x.coord-this.x.coord, p.y.coord-this.y.coord, p.z.coord-this.z.coord);
+		Point3D new_p=new Point3D(this.x.coord-p.x.coord,this.y.coord- p.y.coord, this.z.coord-p.z.coord);
 		Vector v=new Vector(new_p);
 		return v;
 		}
