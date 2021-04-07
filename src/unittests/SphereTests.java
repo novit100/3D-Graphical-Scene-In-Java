@@ -46,7 +46,7 @@ public class SphereTests {
 		// ============ Equivalence Partitions Tests ==============
 
 		// TC01: Ray's line is outside the sphere (0 points)
-		assertEquals("Ray's line out of sphere", null,
+		assertEquals("uncorrect intersection! Ray's line out of sphere", null,
 				sphere.findIntersections(new Ray(new Point3D(-1, 0, 0), new Vector(1, 1, 0))));
 
 		// TC02: Ray starts before and crosses the sphere (2 points)
@@ -86,7 +86,7 @@ public class SphereTests {
 		// TC13: Ray starts before the sphere (2 points)
 		result = sphere.findIntersections(new Ray(new Point3D(-1, 0, 0),new Vector(1, 0, 0)));
 		assertEquals("Wrong number of points", 2, result.size());
-		if (result.get(0).getX() > result.get(1).getX())
+		if (result.get(0).getX() > result.get(1).getX())//switches between the points to match 
 		{
 			result = List.of(result.get(1), result.get(0));
 		}

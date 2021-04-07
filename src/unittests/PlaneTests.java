@@ -78,7 +78,7 @@ public class PlaneTests
 			// the ray intersects the plane
 			r = new Ray(new Point3D(1, 1, 0), new Vector(2, 1, -1));
 			List<Point3D> result = pl.findIntersections(r);
-			assertEquals("the ray intersects the plane", List.of(new Point3D(7, 4, -3)), result);
+			assertEquals("uncorrect intersection! the ray intersects the plane", List.of(new Point3D(7, 4, -3)), result);
 
 			//TC02: the ray does not intersect the plane
 			r = new Ray(new Point3D(1, 1, 0), new Vector(2, 1, 1));
@@ -90,31 +90,31 @@ public class PlaneTests
 			//TC03: Ray is parallel to the plane
 			// the ray is included in the plane
 			r = new Ray(new Point3D(1, 2, -3), new Vector(2, 1, 0));
-			assertEquals("the ray is parallel and included in the plane", null, pl.findIntersections(r));
+			assertEquals("incorrect intersection! the ray is parallel and included in the plane", null, pl.findIntersections(r));
 			//TC04: the ray is not included in the plane
 			r = new Ray(new Point3D(1, 2, -2), new Vector(2, 1, 0));
-			assertEquals("the ray is parallel and not included in the plane", null, pl.findIntersections(r));
+			assertEquals("incorrect intersection! the ray is parallel and not included in the plane", null, pl.findIntersections(r));
 
 			// TC05: Ray is orthogonal to the plane
 			// Ray starts before the plane
 			r = new Ray(new Point3D(1, 1, 0), new Vector(0, 0, -1));
-			assertEquals("the ray is orthogonal and starts before the plane",List.of(new Point3D(1, 1, -3)), pl.findIntersections(r));
+			assertEquals("incorrect intersection! the ray is orthogonal and starts before the plane",List.of(new Point3D(1, 1, -3)), pl.findIntersections(r));
 			//TC06: Ray starts in the plane
 			r = new Ray(new Point3D(1, 1, -3), new Vector(0, 0, -1));
-			assertEquals("the ray is orthogonal and starts in the plane", null, pl.findIntersections(r));
+			assertEquals("incorrect intersection! the ray is orthogonal and starts in the plane", null, pl.findIntersections(r));
 			//TC07: Ray starts after the plane
 			r = new Ray(new Point3D(1, 1, -4), new Vector(0, 0, -1));
-			assertEquals("the ray is orthogonal and starts after the plane", null, pl.findIntersections(r));
+			assertEquals("incorrect intersection! the ray is orthogonal and starts after the plane", null, pl.findIntersections(r));
 
 
 			// TC08: Starting point of the ray is on the plane, but the vector is not included in the plane
 			r = new Ray(new Point3D(1, 1, -3), new Vector(2, 1, -1));
-			assertEquals("Starting point of the ray is on the plane, but the vector is not included in the plane", null, pl.findIntersections(r));
+			assertEquals("incorrect intersection! Starting point of the ray is on the plane, but the vector is not included in the plane", null, pl.findIntersections(r));
 
 
 			// TC09: Starting point of the ray is equal to the point represents the plane- q0
 			r = new Ray(new Point3D(0, 0, -3), new Vector(2, 1, -1));
-			assertEquals("Starting point of the ray is equal to the point represents the plane- q0", null, pl.findIntersections(r));
+			assertEquals("incorrect intersection! Starting point of the ray is equal to the point represents the plane- q0", null, pl.findIntersections(r));
 	
 		}
 		catch(IllegalArgumentException e) {}
