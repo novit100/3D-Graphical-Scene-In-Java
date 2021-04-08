@@ -42,9 +42,14 @@ public class Point3D {
 		
 	}
 	public double	distanceSquared(Point3D p) {
-		double dis_s=((this.x.coord-p.x.coord)*(this.x.coord-p.x.coord))+((this.y.coord-p.y.coord)*(this.y.coord-p.y.coord))+((this.z.coord-p.z.coord)*(this.z.coord-p.z.coord));
-	return dis_s;
+	//	double dis_s=((this.x.coord-p.x.coord)*(this.x.coord-p.x.coord))+((this.y.coord-p.y.coord)*(this.y.coord-p.y.coord))+((this.z.coord-p.z.coord)*(this.z.coord-p.z.coord));
+    //	return dis_s;
+		Vector v = this.subtract(p); 
+		return v.dotProduct(v);
 	}
+	
+
+
 	public double distance(Point3D p) {
 		double dis_s =this.distanceSquared(p);
 		return Math.sqrt(dis_s);

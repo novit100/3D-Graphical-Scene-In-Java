@@ -31,9 +31,9 @@ public class PlaneTests
 		Vector v2=p2.subtract(p3);
 		Vector v3=p3.subtract(p1);
 		Vector n=p.getNormal(p1);
-		assertTrue("ERROR: Bad normal to plane", isZero(v1.dotProduct(n)));//if the dot product== 0, it really the normal to the plane
-		assertTrue("ERROR: Bad normal to plane", isZero(v2.dotProduct(n)));//if the dot product== 0, it really the normal to the plane
-		assertTrue("ERROR: Bad normal to plane", isZero(v3.dotProduct(n)));//if the dot product== 0, it really the normal to the plane
+		assertTrue("ERROR: Bad normal to plane", isZero(v1.dotProduct(n)));//if the dot product== 0, it really is the normal to the plane
+		assertTrue("ERROR: Bad normal to plane", isZero(v2.dotProduct(n)));//if the dot product== 0, it really is the normal to the plane
+		assertTrue("ERROR: Bad normal to plane", isZero(v3.dotProduct(n)));//if the dot product== 0, it really is the normal to the plane
 		try {
 			new Plane(new Point3D(1,2,3),new Point3D(2,4,6),new Point3D(4,8,12)).getNormal(p1);//a case that all the points are on the same vector- cannot create the plane
 			fail("GetNormal() should throw an exception, but it failed");
