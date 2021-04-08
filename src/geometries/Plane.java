@@ -69,61 +69,7 @@ public class Plane implements Geometry{
 	/**
 	 * @param ray
 	 * @return a list of intersections of the ray with the plane
-	 * public List<Point3D> findIntsersections(Ray ray)
-	{
-		try {
-			Vector vec=q0.subtract(ray.getP0());//creating a new vector according to the point q0 and the starting point of the ray (P0)
-			double t=normal.dotProduct(vec);//dot product between the vector we created and the normal of the plane
-			}
-
-		catch(IllegalArgumentException ex) {
-			return null;
-		}
-
-
-
-		if(isZero(normal.dotProduct(ray.getDir()))) //if the dot product equals 0 it means that the ray is parallel (makbil) to the plane
-			return null;
-		t=t/(normal.dotProduct(ray.getDir()));
-		if(t==0) {//if the distance between the begining point of the ray and the plane so don't count it an an intersection
-			return null;//no itersections
-		}
-		Point3D p=ray.getPoint(t);
-		if(isZero(normal.dotProduct(q0.subtract(p)))) {
-			return List.of(p);
-		}
-		else {
-			return null;
-
-		}
-
-
-
-	@Override
-	public List<Point3D> findIntersections(Ray ray) {
-		try {
-			Vector vec=q0.subtract(ray.getP0());//creating a new vector according to the point q0 and the starting point of the ray (P0)
-
-			double t=normal.dotProduct(vec);//dot product between the vector we created and the normal of the plane
-
-			if(isZero(normal.dotProduct(ray.getDir()))) //if the dot product equals 0 it means that the ray is parallel (makbil) to the plane
-				return null;
-			t=t/(normal.dotProduct(ray.getDir()));
-
-			if(t==0) //if the distance between the p0-the start point of the ray and the plane is 0, its not counted in the intersections list
-				return null;//no intersections
-			else if(t > 0) // the ray crosses the plane
-			{
-				Point3D p=ray.getPoint(t);//get the new point on the ray, multiplied by the scalar t. p is the intersection point.
-				return List.of(p);//if so, return the point- the intersection
-			}
-			else // the ray doesn't cross the plane
-				return null;	
-		}
-		catch(Exception ex) {
-			return null;
-		}
-	} */
+     */
 	//////////////
 
 	@Override
@@ -133,11 +79,11 @@ public class Plane implements Geometry{
 
 			double t=normal.dotProduct(vec);//dot product between the vector we created and the normal of the plane
 
-			if(isZero(normal.dotProduct(ray.getDir()))) //if the dot product equals 0 it means that the ray is parallel (makbil) to the plane
+			if(isZero(normal.dotProduct(ray.getDir()))) //if the dot product equals 0 it means that the ray is parallel ,makbil, to the plane
 				return null;
 			t=t/(normal.dotProduct(ray.getDir()));
 
-			if(t==0) //if the distance between the p0-the start point of the ray and the plane is 0, its not counted in the intersections list
+			if(t==0) //if the distance between the begining point of the ray and the plane so don't count it as an intersection
 				return null;//no intersections
 			else if(t > 0) // the ray crosses the plane
 			{

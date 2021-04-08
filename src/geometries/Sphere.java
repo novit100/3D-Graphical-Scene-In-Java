@@ -17,7 +17,7 @@ public class Sphere implements Geometry
 		this.radius = radius;
 	}
 	
-///////////////////// get  ////////////////////////////
+///////////////////// get  //////////////////
 	public Vector getNormal(Point3D p) 
 	{
 		return center.subtract(p).normalized();//the normal is the subtraction of the center from the point
@@ -33,20 +33,7 @@ public class Sphere implements Geometry
 		return radius;
 	}
 
-	@Override
-	public String toString() 
-	{
-		return "Sphere [center=" + center + ", radius=" + radius + "]";
-	}
-	/**
-	 * Returns All intersections with ray
-	 *
-	 * @param ray The ray
-	 * @return List of intersections (Points)
-	 * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
-	 * @see Ray#Ray(Point3D, Vector)
-	 */
-//////////// admin ////////////////
+//////////// intersections ////////////////
 	@Override
 	public List<Point3D> findIntersections(Ray ray) {
 		// TODO Auto-generated method stub
@@ -75,7 +62,20 @@ public class Sphere implements Geometry
 			return null;
 	}
 
-
+//////////////////admin ///////////////////
+@Override
+public String toString() 
+{
+	return "Sphere [center=" + center + ", radius=" + radius + "]";
+}
+/**
+* Returns All intersections with ray
+*
+* @param ray The ray
+* @return List of intersections (Points)
+* @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
+* @see Ray#Ray(Point3D, Vector)
+*/
 
 
 }

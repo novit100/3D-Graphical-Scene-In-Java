@@ -11,7 +11,7 @@ import primitives.*;
 
 /**
  * 
- * @author
+ * @author ronni and nov
  *
  */
 
