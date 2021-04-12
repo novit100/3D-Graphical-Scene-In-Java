@@ -6,8 +6,8 @@ import static primitives.Util.*;
  *
  */
 public class Ray {
-	 Point3D p0;
-	 Vector dir;
+	 Point3D p0;//the place that the ray starts
+	 Vector dir;//the direction of the ray 
 	 
 	 //////////// ctor //////////////
 	public Ray(Point3D p0, Vector dir) {
