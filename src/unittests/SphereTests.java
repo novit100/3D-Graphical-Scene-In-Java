@@ -54,13 +54,11 @@ public class SphereTests {
 		Point3D p2 = new Point3D(1.53484692283495, 0.844948974278318, 0);
 		List<Point3D> result = sphere.findIntersections(new Ray(new Point3D(-1, 0, 0),
 				new Vector(3, 1, 0)));
+		List<Point3D> res_expected=List.of(p2,p1);
 		assertEquals("Wrong number of points", 2, result.size());
-		boolean flag=false;
-		if( (isZero((result.get(0).subtract(p1)).length())&&isZero((result.get(1).subtract(p2)).length())
-				|| (isZero((result.get(0).subtract(p2)).length())))&&isZero((result.get(1).subtract(p1)).length()))
-			flag=true;
+		
 
-		assertEquals("Ray crosses sphere", flag, true);
+		assertEquals("Ray crosses sphere", res_expected, result);
 
 
 

@@ -84,9 +84,9 @@ public class CameraIntegrationTests {
 	 */
 	@Test 
 	public void constructRayThroughPixel_Sphere() 
-	{
+	{   
 		//TC 01: radius=1, 2 intersections from the middle ray
-		Sphere sph1 =  new Sphere( new Point3D(0, 0, -3),1);
+		Sphere sph1 =  new Sphere( new Point3D(0, 0, 3),1);
 		int count = countIntersec_contructRay(sph1,cam1);
 		assertEquals("not good intersection sum",2,count);
 		System.out.println("count: "+count);

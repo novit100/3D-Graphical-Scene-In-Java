@@ -16,7 +16,7 @@ double radius;
 public Tube(Ray axisRay_, double radius_) 
 {
 	super();
-	if(isZero(radius) || radius < 0)
+	if(isZero(radius_) || radius_ < 0)
         throw new IllegalArgumentException("Zero or negative radius");
 	this.axisRay = axisRay_;
 	this.radius = radius_;
