@@ -1,4 +1,6 @@
-package geometries;
+/**
+ * package geometries;
+
 import primitives.*;
 public class Cylinder  extends Tube{
 	double height;
@@ -23,3 +25,4 @@ public class Cylinder  extends Tube{
 		return "Cylinder [height=" + height + "]";
 	}
 }
+ */

@@ -18,7 +18,7 @@ public class TubeTests {
 
 	/**
 	 * Test method for {@link geometries.Tube#getNormal(primitives.Point3D)}.
-	 */
+	 */ 
 	@Test
 	public void testGetNormal() {
 		// ============ Equivalence Partitions Tests ==============
@@ -28,11 +28,11 @@ public class TubeTests {
 		Vector n= t.getNormal(p);
 		assertTrue("bad normal to tube",isZero(r.getDir().dotProduct(n)));
 		// =============== Boundary Values Tests ==================
-        // 
-        try {
-        	new Tube(r,0).getNormal(p);
-            fail("GetNormal() should throw an exception, but it failed");
-        } catch (Exception e) {}
+        // should be in a new method
+       // try {
+        //	new Tube(r,0).getNormal(p);
+          //  fail("GetNormal() should throw an exception, but it failed");
+       // } catch (Exception e) {}
 	}
 
 }

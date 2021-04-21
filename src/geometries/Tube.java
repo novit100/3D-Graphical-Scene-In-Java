@@ -1,16 +1,25 @@
 package geometries;
+import java.util.List;
+import static primitives.Util.*;
 import primitives.*;
 
-public class Tube 
+public class Tube implements Geometry
 {
 Ray axisRay;
 double radius;
 ///////// ctor  //////////
-public Tube(Ray axisRay, double radius) 
+/**
+ * ctor that gets 2 parameters
+ * @param axisRay_
+ * @param radius_
+ */
+public Tube(Ray axisRay_, double radius_) 
 {
 	super();
-	this.axisRay = axisRay;
-	this.radius = radius;
+	if(isZero(radius) || radius < 0)
+        throw new IllegalArgumentException("Zero or negative radius");
+	this.axisRay = axisRay_;
+	this.radius = radius_;
 }
 ///////// get ////////////
 /**
@@ -51,6 +60,11 @@ public double getRadius()
 public String toString() 
 {
 	return "Tube [axisRay=" + axisRay + ", radius=" + radius + "]";
+}
+@Override
+public List<Point3D> findIntersections(Ray ray) {
+	// TODO Auto-generated method stub
+	return null;
 }
 
 

@@ -38,12 +38,12 @@ public class Triangle extends Polygon{
 		Vector v = ray.getDir();
 		
 		
-		//we are creating a king of pyramid by 3 vectors 
+		//we are creating a kind of pyramid by 3 vectors 
 		Vector v1 = vertices.get(0).subtract(p0).normalized();
 		Vector v2 = vertices.get(1).subtract(p0).normalized();
 		Vector v3 = vertices.get(2).subtract(p0).normalized();
      
-		//if the ray lays on the фад
+		//if the ray lays on the Pea
 		//so the intersection is on the edge of the triangle therefore we don't count it as an intersection 
 		double s1 = v.dotProduct(v1.crossProduct(v2));//[v1.crossProduct(v2)=normal of v1 and v2
 		if (isZero(s1)) return null;

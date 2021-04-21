@@ -24,10 +24,16 @@ public class Point3D {
 	public double getX() {
 		return x.coord;
 	}
+	public double getY() {
+		return y.coord;
+	}
+	public double getZ() {
+		return z.coord;
+	}
 	/**- Vector subtraction - receives a second point in the parameter,
 	 *  returns a vector from the second point to the point on which the operation is performed*/
 	public Vector subtract(Point3D p){
-		Point3D new_p=new Point3D(this.x.coord-p.x.coord,this.y.coord- p.y.coord, this.z.coord-p.z.coord);
+		Point3D new_p=new Point3D(x.coord-p.x.coord,y.coord- p.y.coord, z.coord-p.z.coord);
 		Vector v=new Vector(new_p);
 		return v;
 		}
@@ -37,7 +43,7 @@ public class Point3D {
 	 * @return a point
 	 */
 	public Point3D add(Vector v) {
-		Point3D p= new Point3D(v.head.x.coord+this.x.coord, v.head.y.coord+this.y.coord, v.head.z.coord+this.z.coord);
+		Point3D p= new Point3D(v.getHead().x.coord+this.x.coord, v.getHead().y.coord+this.y.coord, v.getHead().z.coord+this.z.coord);
 		return p;
 		
 	}

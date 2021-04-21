@@ -19,6 +19,21 @@ public class VectorTests {
 
 	/**
 	 * Test method for {@link primitives.Vector#add(primitives.Vector)}.
+	 * 
+		Vector v1 = new Vector(1,1,1);
+		Vector v2 = new Vector(-1,-1,1);
+		Vector v3 = new Vector(-1,-1,-1);
+		// ============ Equivalence Partitions Tests ==============
+		assertEquals("Add() wrong result length", new Vector(0,0,2), v1.add(v2));
+		
+		  // =============== Boundary Values Tests ==================
+        // 
+        try {
+            v1.add(v3);
+            fail("Add() should throw an exception, but it failed");
+        } catch (Exception e) {}
+	}
+
 	 */
 	@Test
 	public void testAdd() {

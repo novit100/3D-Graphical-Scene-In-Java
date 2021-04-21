@@ -21,6 +21,11 @@ public class Ray {
 	public Vector getDir() {
 		return dir;
 	}
+	/**
+	 * 
+	 * @param double t
+	 * @return  p0 if t==0, else returns p0+ (direction*t)
+	 */
 	public Point3D getPoint(double t) {
 		Point3D tmp=new Point3D(p0.x,p0.y,p0.z);
 		return isZero(t) ? p0 : tmp.add(dir.scale(t));
@@ -61,4 +66,66 @@ public class Ray {
 			return false;
 		return true;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**DK if belongs here
+	 * @Override
+    public List<Point3D> findIntersections(Ray ray) {
+        Point3D P0 = ray.getP0();
+        Vector v = ray.getDirection();
+
+        Vector n = _normal;
+
+        if(_q0.equals(P0)){
+            return  null;
+        }
+
+        Vector P0_Q0 = _q0.subtract(P0);
+
+        double mechane = alignZero(n.dotProduct(P0_Q0));
+
+        //
+        if (isZero(mechane)){
+            return null;
+        }
+
+        //mone
+        double nv = alignZero(n.dotProduct(v));
+
+        // ray is lying in the plane axis
+        if(isZero(nv)){
+            return null;
+        }
+
+        double  t = alignZero(mechane / nv);
+
+        if (t <=0){
+            return  null;
+        }
+        Point3D P = ray.getPoint(t);
+
+        return List.of(P);
+    }
+}
+	 */
 }

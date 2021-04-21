@@ -11,7 +11,7 @@ public class Sphere implements Geometry
 	Point3D center;
 	double radius;
 	public Sphere(Point3D center, double radius) 
-	{
+	{//if !
 		super();
 		this.center = center;
 		this.radius = radius;
@@ -36,12 +36,11 @@ public class Sphere implements Geometry
 //////////// intersections ////////////////
 	@Override
 	public List<Point3D> findIntersections(Ray ray) {
-		// TODO Auto-generated method stub
 		//point and vector of ray
 		Point3D p0 = ray.getP0();//ray point
 		Vector v = ray.getDir();//ray vector
-		//check if ray point is the center
-		if(p0.equals(center))       //
+		//check if ray point is the center,there'll be only 1 intersection found by the dir and radius
+		if(p0.equals(center))       
 			return List.of(ray.getPoint(radius));
 		Vector u=center.subtract(p0);// the vector between center and ray
 		double tm=v.dotProduct(u); //the scale for the ray in order to get parallel to the sphere center
@@ -49,7 +48,7 @@ public class Sphere implements Geometry
 		//check if d is bigger then radius-the ray doesn't cross the sphere
 		if (d>radius)
 			return null;
-		double th=Math.sqrt(radius*radius-d*d);//according pitagoras
+		double th=Math.sqrt(radius*radius-d*d);//according to Pitagoras
 		double t1=tm+th;
 		double t2=tm-th;
 		if(t1>0&&t2>0&&!isZero(ray.getPoint(t1).subtract(center).dotProduct(v))&&!isZero(ray.getPoint(t2).subtract(center).dotProduct(v))) //if orthogonal -> no intersection

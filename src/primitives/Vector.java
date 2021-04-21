@@ -39,6 +39,8 @@ public class Vector {
 	 * @param head
 	 */
 	public Vector(Point3D head) {
+		if (Point3D.ZERO.equals(head))
+			throw new IllegalArgumentException("Illigel vector - vector cannot be (0,0,0)");
 		this.head = head;
 	}
 
@@ -53,25 +55,23 @@ public class Vector {
 	/////////////////calculations //////////////////
 	
 /**
- * @return return the current normalize vector
+ * @return return the current normalized vector
  */
 	public Vector normalize() {
-		Vector v2 = new Vector(this.getHead());
-		this.head=v2.head;
+		double len = length();
+		this.head = new Point3D(head.x.coord / len, head.y.coord / len, head.z.coord / len);
 		return this;
 	}
 	/**
 	 * @return a normalized vector
 	 */
 	public Vector normalized() {
-		Vector v=new Vector(this.head);
-		v.normalize();
-		return v;
+		return new Vector(normalize().head);
 	}
 
 	/**
-	 * @param s
-	 * @return the wanted vector by multiple each of it's coordinates by s
+	 * @param sc
+	 * @return the wanted vector by multiple each of it's coordinates by sc
 	 */
 	public Vector scale(double sc) {
 		
@@ -106,7 +106,7 @@ public class Vector {
 	 */
 	public Vector add(Vector v) {
 		
-	return (new Vector(head.add((v))));
+	 return (new Vector(head.add((v))));
 	
 	}
 	/**
