@@ -1,6 +1,9 @@
 package primitives;
 import static primitives.Util.*;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * @author ronni&nov
  *
@@ -37,14 +40,27 @@ public class Ray {
 	public String toString() {
 		return "Ray: p0=" + p0 + ", dir=" + dir;
 	}
-	/**this function gets a scale and returns a new point p0+t*dir
-	 * that means that we multiply the ray by the scale and return the final point
-	 * 
-	 * @author ronni & nov
-	 *
-	 */
-	
 
+	/**
+	 * @param lst_point 
+	 * @return point3D ,the closest point to the ray
+	 */
+	public Point3D findClosestPoint (List<Point3D> lst_point) {
+		if (lst_point.isEmpty()) return null;
+		double min_dis=p0.distance(lst_point.get(0));//for the sake of programming we assumed that the first point is the closest 
+		double dis;
+		Point3D target=lst_point.get(0);//as above...
+		for(int i=1;i<lst_point.size();i++) {//this loop moves through the points of the given list and compares the distances between the 
+			                                 //current point to the starting point of the ray 
+			dis=p0.distance(lst_point.get(i));
+			if(dis<min_dis) {
+				min_dis=dis;
+				target=lst_point.get(i);
+			}
+		}
+		return target;
+		
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -67,9 +83,14 @@ public class Ray {
 		return true;
 	}
 	
+	///////////////////////////
 	
-	
-	
+	/**this function gets a scale and returns a new point p0+t*dir
+	 * that means that we multiply the ray by the scale and return the final point
+	 * 
+	 * @author ronni & nov
+	 *
+	 */
 	
 	
 	
