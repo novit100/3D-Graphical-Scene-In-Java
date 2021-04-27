@@ -8,7 +8,7 @@ import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
-import renderer.RayTracerBasic;
+import renderer.BasicRayTracer;
 
 
 /**
@@ -21,7 +21,7 @@ public class Render {
  ImageWriter imageWriter;
  Scene scene;
  Camera cam;
- RayTracerBasic rtBasic;
+ BasicRayTracer rtBasic;
  
 //////////////////////// setters //////////////////////////////
 /**
@@ -52,7 +52,7 @@ public Render setCam(Camera cam) {
  * a setter function of the field rtBasic ,that returns the render object itself for concatenation (shirshur)
  * @return this 
  */
-public Render setRtBasic(RayTracerBasic rtBasic) {
+public Render setRtBasic(BasicRayTracer rtBasic) {
 	this.rtBasic = rtBasic;
 	return this;
 }
@@ -67,7 +67,7 @@ public void renderImage() {
 		    ||cam==null
 		    ||rtBasic==null)
 		throw new MissingResourceException("not all the fields contain a value", "Render", null); 
-	RayTracerBasic hlp =new RayTracerBasic(scene);
+	BasicRayTracer hlp =new BasicRayTracer(scene);
 	int Nx = imageWriter.getNx();
     int Ny = imageWriter.getNy();
     for (int i = 0; i < Ny; i++) {
@@ -91,7 +91,7 @@ public void printGrid(int interval, Color color) {
     int Ny = imageWriter.getNy();
     for (int i = 0; i < Ny; i++) {
         for (int j = 0; j < Nx; j++) {
-            if (i % 50 == 0 || j % 50 == 0)
+            if (i % interval == 0 || j % interval == 0)
             {
                 imageWriter.writePixel(j, i, Color.GREEN);//coloring only the stripes of the grid
             }

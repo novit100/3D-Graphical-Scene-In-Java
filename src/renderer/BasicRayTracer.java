@@ -7,12 +7,12 @@ import primitives.Point3D;
 import primitives.Ray;
 import scene.Scene;
 
-public class RayTracerBasic extends RayTracerBase {
+public class BasicRayTracer extends RayTracerBase {
 /**
  * a constructor of the class RayTracerBasic using a scene
  * @param scene
  */
-	public RayTracerBasic(Scene scene) {
+	public BasicRayTracer(Scene scene) {
 		super(scene);
 	}
 	/**

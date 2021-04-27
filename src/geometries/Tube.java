@@ -3,7 +3,7 @@ import java.util.List;
 import static primitives.Util.*;
 import primitives.*;
 
-public class Tube implements Geometry
+public class Tube extends Geometry
 {
 Ray axisRay;
 double radius;

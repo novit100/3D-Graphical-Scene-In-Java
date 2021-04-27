@@ -6,7 +6,7 @@ import primitives.Ray;
 import primitives.Vector;
 import static primitives.Util.*;
 
-public class Sphere implements Geometry
+public class Sphere extends Geometry
 {
 	Point3D center;
 	double radius;
