@@ -5,19 +5,33 @@ import java.util.List;
 import primitives.Point3D;
 import primitives.Ray;
 import scene.Scene;
+import primitives.*;
+import geometries.Intersectable.GeoPoint;
+import java.util.stream.Collectors;
 
-/**an interface that is responsible for finding intersections
+
+/**an interface that is responsible for finding intersections of ray with geometry
  * @author Ronni & Nov
  *
  */
 public interface Intersectable {
 	List<Point3D> findIntersections(Ray ray);
+
+	/**
+	 * 
+	 * @param ray
+	 * @return list of GeoPints: intersections and the geometries that are intersected.
+	 */
+    List<GeoPoint> findGeoIntersections(Ray ray);
+	
+  
 /**
- * GeoPoint class is a passive static data structure (PSD) inside the interface Intersectable.
+ * GeoPoint inner class is a passive static data structure (PSD) inside the interface Intersectable that all of it's fields are public.
  * it is meant to help us using the emmission light
  * @author Ronni & Nov
  *
  */
+//============================================================================//
 public static class GeoPoint {
 	///////////////    fields   //////////////////
     public Geometry geometry;
@@ -34,9 +48,30 @@ public static class GeoPoint {
 	}
 	
 	//////////////// admin ////////////////////////
+	
+    List<GeoPoint> findGeoIntersections(Ray ray);
+	
+    /**
+     * just for the tests until stage 6:
+     * @param ray
+     * @return list of points: intersection point
+     */
+    default List<Point3D> findIntersections(Ray ray) 
+    {
+        var geoList = findGeoIntersections(ray);
+        return geoList == null ? null
+                               : geoList.stream().map(gp -> gp.point).collect(Collectors.toList());
+    }
+
+    
+
+	
 	public List<GeoPoint> findGeoIntersections(Ray ray) {
-		List<GeoPoint> intersections = null;
-		for(int i=0;i<(Scene.geometries).length();i++) {
+	//	List<GeoPoint> intersections = null;
+	//	for(int i=0;i<(Scene.geometries).length();i++) {
+		var geoList = findGeoIntersections(ray);
+        return geoList == null ? null
+                               : geoList.stream().map(gp -> gp.point).collect(Collectors.toList());
 	}
 	/**
 	 * an admin function that checks if the objects are equal

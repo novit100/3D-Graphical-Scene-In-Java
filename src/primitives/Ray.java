@@ -4,6 +4,8 @@ import static primitives.Util.*;
 import java.util.Iterator;
 import java.util.List;
 
+import geometries.Intersectable.GeoPoint;
+
 /**
  * @author ronni&nov
  *
@@ -61,6 +63,56 @@ public class Ray {
 		return target;
 		
 	}
+	
+	/**
+	 * @param lst_point 
+	 * @return GeoPoint ,the closest point to the ray
+	 */
+	public Point3D findClosestGeoPoint (List<GeoPoint> lst_point) {
+		if (lst_point.isEmpty()) return null;
+		double min_dis=p0.distance(lst_point.get(0).point);//for the sake of programming we assumed that the first point is the closest 
+		double dis;
+		GeoPoint target=lst_point.get(0).point;//as above...
+		for(int i=1;i<lst_point.size();i++) {//this loop moves through the points of the given list and compares the distances between the 
+			                                 //current point to the starting point of the ray 
+			dis=p0.distance(lst_point.get(i).point);
+			if(dis<min_dis) {
+				min_dis=dis;
+				target=lst_point.get(i).point;
+			}
+		}
+		return target;
+		
+	}
+	//////
+	/**
+	 * same as the function "findClosestPoint", but works with GeoPoints.
+	 * @param points
+	 * @return the GeoPoint in which its point is the closest to p0 of the ray.
+	 */
+	public GeoPoint getClosestGeoPoint(List<GeoPoint> points)
+	{
+		if (points==null)//if the list is empty
+			return null;
+
+		GeoPoint closestP=points.get(0);			//take the 1st point in the beginning. point and geometry.
+		double min=p0.distance(points.get(0).point);	
+
+		for(int i=0; i<points.size(); i++) 		//move on all the points
+		{
+			if (p0.distance(points.get(i).point)<min) //change the closest point if the dis < min
+			{
+				min=p0.distance(points.get(i).point);
+				closestP=points.get(i);		    
+			}
+		}
+		return closestP;	//return the closest point(and the geometry it intersects)-with min distance from p0.
+	
+	}
+
+	
+	
+	/////
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

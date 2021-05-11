@@ -8,6 +8,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import geometries.Geometries;
+import geometries.Intersectable.GeoPoint;
+import geometries.Plane;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -45,4 +48,48 @@ public void testFindClosestPoint(){
     Ray r4=new Ray(new Point3D(11, 11, 11.1),new Vector(1,1,1));
     assertEquals("did not find the right closest point to the ray -in the end of the list",new Point3D(11,11,11) , r4.findClosestPoint(lst_points));
 }
+
+/**
+ * Test method for {@link primitives.Ray#getClosestGeoPoint(java.util.List)}.
+ */
+@Test
+public void testFindClosestGeoPoint() 
+{
+	//restart geometries
+	Geometries geo=new Geometries(new Plane(new Point3D(0,1,1),new Point3D(1,0,1),new Point3D(0,0,1)),
+			new Plane(new Point3D(1,0,0),new Point3D(0,1,0),new Point3D(0,0,0)),
+			new Plane(new Point3D(0,1,2),new Point3D(1,0,2),new Point3D(0,0,2)));
+	//plane1= parallel to [xy]: z=1, 
+	//plane2= [xy]: z=0,  
+	//plane3= parallel to [xy]: z=2
+	
+	// ============ Equivalence Partitions Tests ==============
+	// TC01: the middle point is the closest
+	Ray ray=new Ray(new Point3D(0, 0, -0.5),new Vector(0,0,1));
+	List<GeoPoint> result=geo.findGeoIntersections(ray);
+	GeoPoint closePointAndGeo =ray.findClosestGeoPoint(result);
+	assertEquals("Wrong close intersection",result.get(1), closePointAndGeo);
+	
+	// =============== Boundary Values Tests ================== 
+	// TC02: empty list
+	ray=new Ray(new Point3D(0, 0, -5),new Vector(0,0,-1));
+	result=geo.findGeoIntersections(ray);
+	closePointAndGeo =ray.findClosestGeoPoint(result);
+	assertEquals("Wrong close intersection", null, closePointAndGeo);
+	
+	// TC03: the first point is the closest
+	ray=new Ray(new Point3D(0, 0, 1.5),new Vector(0,0,-1));
+	result=geo.findGeoIntersections(ray);
+	closePointAndGeo =ray.findClosestGeoPoint(result);
+	assertEquals("Wrong close intersection", result.get(0), closePointAndGeo);
+	
+	// TC04: the last point is the closest
+	ray=new Ray(new Point3D(0, 0, 2.5),new Vector(0,0,-1));
+	result=geo.findGeoIntersections(ray);
+	closePointAndGeo =ray.findClosestGeoPoint(result);
+	assertEquals("Wrong close intersection", result.get(2), closePointAndGeo);
+}
+
+}
+
 }
