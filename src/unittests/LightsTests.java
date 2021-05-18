@@ -140,5 +140,61 @@ public class LightsTests {
 		render.renderImage();
 		render.writeToImage();
 	}
+	/**
+	 * we added this test in order to create an image using all kind of lights on sphere
+	 *  ////////////////////////
+	
+	
+	////////////////////////
+	 
+	@Test
+	public void sphereLights()     
+	{
+		scene1.geometries.add(sphere);
+		//spot light:
+		scene1.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(-50, -50, 50), new Vector(10, 10, -20)) 		
+				.setKl(0.00001).setKq(0.00000001));
+		//point light:
+		scene1.lights.add(new PointLight(new Color(500, 300, 0), new Point3D(-40, 1, 1))
+			.setKl(0.00001).setKq(0.000001));
+		//directional light:
+		scene1.lights.add(new DirectionalLight(new Color(500, 300, 0), new Vector(-80, 50, -100)));
 
+
+		ImageWriter imageWriter = new ImageWriter("SphereLights", 500, 500);
+		Render render = new Render()//
+				.setImageWriter(imageWriter) //
+				.setCam(camera1) //
+				.setRayTracerBase(new BasicRayTracer(scene1));
+		render.renderImage();
+		render.writeToImage();
+		
+	}
+
+	/**
+	 * we added this test in order to create an image using all kind of lights on two triangles 
+	 */
+	@Test
+	public void trianglesLights() 
+	{
+		scene2.geometries.add(triangle1.setMaterial(new Material().setKd(0.8).setKd(0.2).set_nShininess(300)), 
+				triangle2.setMaterial(new Material().setKd(0.8).setKd(0.2).set_nShininess(300)));
+		//directional light:
+		scene2.lights.add(new DirectionalLight(new Color(300, 150, 150), new Vector(0, 0, -1)));
+		//spot light:
+		scene2.lights.add(new SpotLight(new Color(500, 250, 250), new Point3D(10, -10, -130), new Vector(-20, -20, -10)) 
+			.setKl(0.0001).setKq(0.000005));
+		//point light:
+		scene2.lights.add(new PointLight(new Color(500, 250, 250), new Point3D(100, -10, -130)) 
+				.setKl(0.0005).setKq(0.0005));
+		
+		ImageWriter imageWriter = new ImageWriter("TriangleLights", 500, 500);
+		Render render = new Render()
+				.setImageWriter(imageWriter) 
+				.setCam(camera2)
+				.setRayTracerBase(new BasicRayTracer(scene2));
+		render.renderImage();
+		render.writeToImage();
+		
+	}
 }
