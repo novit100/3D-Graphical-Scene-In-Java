@@ -85,10 +85,13 @@ public class Polygon extends Geometry {
 	public Vector getNormal(Point3D point) {
 		return plane.getNormal();
 	}
-
+	/**
+	 * we need this function because we implemented findIntersections of triangle that extends polygon and need to implement intersectable (that "Geometry" interface extends), as well.
+	 * so here in polygon it returns null anyway, right now we don't implement this bonus.
+	 */
 	@Override
-	public List<Point3D> findIntersections(Ray ray) {
-		// we have to have here this method because polygon implements geometry and we did'nt do the bonus
+	public List<GeoPoint> findGeoIntersections(Ray ray) {
+		
 		return null;
 	}
 }

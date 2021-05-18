@@ -1,8 +1,13 @@
 package scene;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
 import elements.AmbientLight;
+import elements.LightSource;
 import geometries.Geometries;
 import primitives.Color;
+import java.util.List;
 /**
  * Scene class represents a scene composed by the name,background,ambient light and geometries.
  * @author Ronni & Nov
@@ -11,13 +16,21 @@ import primitives.Color;
 public class Scene {
 
 	public String name;//the name of the scene
-	public Color background;//the color of the background
-	public AmbientLight ambientLight=new AmbientLight(Color.BLACK,1);//the abient light with default value -black
-	public Geometries geometries;//a geometry model with default geometry value.
+	public Color background=Color.BLACK;//the color of the background
+	public AmbientLight ambientLight=new AmbientLight();//the abient light with default value -black
+	public Geometries geometries=null;//a geometry model with default geometry value.
+	public List<LightSource> lights;	//the light sources in the scene
+	
 	////////////// ctor ////////////////////
+	/**
+	 * a constructor that sets the name of the scene from a given string and initializes 
+	 * the field 'geometries', and the field 'lights'-(by LinkedList). 
+	 * @param name
+	 */
 	public Scene(String name) {
 		this.name = name;
 		geometries=new Geometries();
+		lights=new LinkedList<LightSource>();//restart empty list of lights
 	}
 	/////////////  set  /////////////////////
 	/**
@@ -50,7 +63,15 @@ public class Scene {
 		this.geometries = geometries;
 		return this;
 	}
-	
+	/**
+	 * @param lights
+	 * @return the scene itself to allow design pattern of builder- to concatenate calls to setters.
+	 */
+	public Scene setLights(LightSource...lights) 
+	{  
+        this.lights.addAll(Arrays.asList(lights));
+        return this;
+	}
 	
 
 }

@@ -19,7 +19,8 @@ import renderer.BasicRayTracer;
  */
 public class Render {
  ImageWriter imageWriter;
- Scene scene;
+//no need for scene here since its in ray tracer base
+//Scene scene;				//contains the geometries
  Camera cam;
  BasicRayTracer rtBasic;
  
@@ -35,11 +36,11 @@ public Render setImageWriter(ImageWriter imageWriter) {
 /**
  * a setter function of the field scene ,that returns the render object itself for concatenation (shirshur)
  * @return this 
- */
+
 public Render setScene(Scene scene) {
 	this.scene = scene;
 	return this;
-}
+} */
 /**
  * a setter function of the field cam ,that returns the render object itself for concatenation (shirshur)
  * @return this 
@@ -52,29 +53,32 @@ public Render setCam(Camera cam) {
  * a setter function of the field rtBasic ,that returns the render object itself for concatenation (shirshur)
  * @return this 
  */
-public Render setRtBasic(BasicRayTracer rtBasic) {
+public Render setRayTracerBase(BasicRayTracer rtBasic) {
 	this.rtBasic = rtBasic;
 	return this;
 }
 
 ///////////////////////// functions ////////////////////////////////////
 /**
- * .................
+ * this function moves on all pixels of viewPlane in camera, 
+ * calls to "constructRayThroughPixel" to create a ray for each pixel,
+ * calls to rayTracer's "traceRay" to follow the ray and calculate the pixel's color,
+ * and calls to imageWriter's "writePixel" to paint the pixel on the image.
  */
 public void renderImage() {
 	if (imageWriter==null 
-			||scene==null 
+			||rtBasic.scene==null 
 		    ||cam==null
 		    ||rtBasic==null)
 		throw new MissingResourceException("not all the fields contain a value", "Render", null); 
-	BasicRayTracer hlp =new BasicRayTracer(scene);
-	int Nx = imageWriter.getNx();
-    int Ny = imageWriter.getNy();
+	//rezolution:
+	int Nx = imageWriter.getNx();//number of pixels on tzir x
+    int Ny = imageWriter.getNy(); //number of pixels on tzir y
     for (int i = 0; i < Ny; i++) {
         for (int j = 0; j < Nx; j++) {
         	
         	Ray r=cam.constructRayThroughPixel(Nx,Ny,j,i); // a ray with the camera starting point
-         imageWriter.writePixel(j, i, hlp.traceRay(r));
+         imageWriter.writePixel(j, i, rtBasic.traceRay(r));//paint the pixel with the right color
         }
     }
   

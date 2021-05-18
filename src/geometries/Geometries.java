@@ -51,18 +51,18 @@ public class Geometries implements Intersectable
 	/**
 	 * @param ray
 	 * @return a list of intersections of the ray with all the geometries in the list. all the composite component.
+	 * we are using the design pattern of composite- here in one function we collect all the intersections of our geometry shapes by using their own "findInresection" function.
 	 */
 	@Override
-	public List<Point3D> findIntersections(Ray ray) 
-	{
-		List<Point3D> intersections=new ArrayList<Point3D>();//new empty list
+	public List<GeoPoint> findGeoIntersections(Ray ray) {
+		List<GeoPoint> intersections=new ArrayList<GeoPoint>();//new empty list of points and geometries
 		for(int i=0; i<geometries.size(); i++) 				 //move on all the geometries
 		{
-			if(geometries.get(i).findIntersections(ray)!=null) //if there are intersections to the ray with the specific shape
+			if(geometries.get(i).findGeoIntersections(ray)!=null) //if there are intersections to the ray with the specific shape
 			{
-				for(int j=0; j<geometries.get(i).findIntersections(ray).size(); j++) //move on all the intersections point with this shape
+				for(int j=0; j<geometries.get(i).findGeoIntersections(ray).size(); j++) //move on all the intersections point with this shape
 				{
-					intersections.add(geometries.get(i).findIntersections(ray).get(j));//add them to general list of intersections
+					intersections.add(geometries.get(i).findGeoIntersections(ray).get(j));//add them to general list of intersections
 				}
 			}
 		}
@@ -70,4 +70,5 @@ public class Geometries implements Intersectable
 			return null;//No intersection at all
 		return intersections;//return all the intersections
 	}
+	
 }

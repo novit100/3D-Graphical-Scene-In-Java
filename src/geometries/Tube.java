@@ -3,7 +3,7 @@ import java.util.List;
 import static primitives.Util.*;
 import primitives.*;
 
-public class Tube extends Geometry
+public class Tube 
 {
 Ray axisRay;
 double radius;
@@ -61,11 +61,7 @@ public String toString()
 {
 	return "Tube [axisRay=" + axisRay + ", radius=" + radius + "]";
 }
-@Override
-public List<Point3D> findIntersections(Ray ray) {
-	// TODO Auto-generated method stub
-	return null;
-}
+
 
 
 

@@ -26,11 +26,15 @@ public class Triangle extends Polygon{
 	}
    
 	/////////// intersections ///////
+	/**
+	 * @param ray
+	 * @return a list of GeoPoints- intersections of the ray with the triangle, and this triangle
+	 */
 	@Override
-	public List<Point3D> findIntersections(Ray ray)
+	public List<GeoPoint> findGeoIntersections(Ray ray)
 	{
 
-		List<Point3D> intersections = plane.findIntersections(ray);//find intersections with the plane
+		List<GeoPoint> intersections = plane.findGeoIntersections(ray);//find intersections with the plane
 		//(triangle extends polygon and polygon contains plane)
 		if (intersections == null) return null;//if no intersections with plane
 
@@ -43,7 +47,7 @@ public class Triangle extends Polygon{
 		Vector v2 = vertices.get(1).subtract(p0).normalized();
 		Vector v3 = vertices.get(2).subtract(p0).normalized();
      
-		//if the ray lays on the Pea
+		//if the ray lays on the 'Pea'
 		//so the intersection is on the edge of the triangle therefore we don't count it as an intersection 
 		double s1 = v.dotProduct(v1.crossProduct(v2));//[v1.crossProduct(v2)=normal of v1 and v2
 		if (isZero(s1)) return null;
@@ -53,9 +57,15 @@ public class Triangle extends Polygon{
 		if (isZero(s3)) return null;
 
 		if ((s1 > 0 && s2 > 0 && s3 > 0) || (s1 < 0 && s2 < 0 && s3 < 0))//the point is inside the triangle so the ray intersects the triangle 
-			return intersections;
+		{
+			for (GeoPoint geo : intersections) //for each geoPoint in intersections change the geometry to be 'this'
+            {
+                geo.geometry = this;//triangle and not plane
+            }
+			return intersections;//return the intersection
+		}
 		else
-			return null;
+			return null;//the ray is on the plane but outside the triangle
 	}
 	 ////// admin //////////////////
 		@Override

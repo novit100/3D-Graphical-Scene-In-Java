@@ -34,14 +34,18 @@ public class Sphere extends Geometry
 	}
 
 //////////// intersections ////////////////
+	/**
+	 * @param ray
+	 * @return a list of GeoPoints- intersections of the ray with the sphere, and this sphere
+	 */
 	@Override
-	public List<Point3D> findIntersections(Ray ray) {
+	public List<GeoPoint> findGeoIntersections(Ray ray) {
 		//point and vector of ray
 		Point3D p0 = ray.getP0();//ray point
 		Vector v = ray.getDir();//ray vector
 		//check if ray point is the center,there'll be only 1 intersection found by the dir and radius
 		if(p0.equals(center))       
-			return List.of(ray.getPoint(radius));
+			return List.of(new GeoPoint(this,ray.getPoint(radius)));//return the intersection point
 		Vector u=center.subtract(p0);// the vector between center and ray
 		double tm=v.dotProduct(u); //the scale for the ray in order to get parallel to the sphere center
 		double d=Math.sqrt(u.lengthSquared()-tm*tm);//get the distance between the ray and the sphere center
@@ -51,14 +55,14 @@ public class Sphere extends Geometry
 		double th=Math.sqrt(radius*radius-d*d);//according to Pitagoras
 		double t1=tm+th;
 		double t2=tm-th;
-		if(t1>0&&t2>0&&!isZero(ray.getPoint(t1).subtract(center).dotProduct(v))&&!isZero(ray.getPoint(t2).subtract(center).dotProduct(v))) //if orthogonal -> no intersection
-			return List.of(ray.getPoint(t1),ray.getPoint(t2));
-		else if(t1>0&&!isZero(ray.getPoint(t1).subtract(center).dotProduct(v))) //if only t1 is not orthogonal and positive
-			return List.of(ray.getPoint(t1));
+		if(t1>0 && t2>0 &&!isZero(ray.getPoint(t1).subtract(center).dotProduct(v)) && !isZero(ray.getPoint(t2).subtract(center).dotProduct(v))) //if orthogonal -> no intersection
+			return List.of(new GeoPoint(this,ray.getPoint(t1)),new GeoPoint(this,ray.getPoint(t2)));
+		else if(t1>0 && !isZero(ray.getPoint(t1).subtract(center).dotProduct(v))) //if only t1 is not orthogonal and positive
+			return List.of(new GeoPoint(this,ray.getPoint(t1)));
 		else if(t2>0&&!isZero(ray.getPoint(t2).subtract(center).dotProduct(v))) //if only t2 is not orthogonal and positive
-			return List.of(ray.getPoint(t2));
+		 	return List.of(new GeoPoint(this,ray.getPoint(t2)));
 		else
-			return null;
+			return null;//no intersections
 	}
 
 //////////////////admin ///////////////////

@@ -15,15 +15,24 @@ import java.util.stream.Collectors;
  *
  */
 public interface Intersectable {
-	List<Point3D> findIntersections(Ray ray);
-
 	/**
-	 * 
 	 * @param ray
 	 * @return list of GeoPints: intersections and the geometries that are intersected.
-	 */
-    List<GeoPoint> findGeoIntersections(Ray ray);
-	
+	 */ 
+	List<GeoPoint> findGeoIntersections(Ray ray);
+
+	/**
+     * just for the tests until stage 6:
+     * @param ray
+     * @return list of points: intersection point
+     */
+    default List<Point3D> findIntersections(Ray ray) 
+    {
+        var geoList = findGeoIntersections(ray);
+        return geoList == null ? null
+                               : geoList.stream().map(gp -> gp.point).collect(Collectors.toList());
+    }
+
   
 /**
  * GeoPoint inner class is a passive static data structure (PSD) inside the interface Intersectable that all of it's fields are public.
@@ -49,22 +58,10 @@ public static class GeoPoint {
 	
 	//////////////// admin ////////////////////////
 	
-    List<GeoPoint> findGeoIntersections(Ray ray);
-	
-    /**
-     * just for the tests until stage 6:
-     * @param ray
-     * @return list of points: intersection point
-     */
-    default List<Point3D> findIntersections(Ray ray) 
-    {
-        var geoList = findGeoIntersections(ray);
-        return geoList == null ? null
-                               : geoList.stream().map(gp -> gp.point).collect(Collectors.toList());
-    }
-
-    
-
+	/**
+	 * 
+	 * @param ray
+	 * @return
 	
 	public List<GeoPoint> findGeoIntersections(Ray ray) {
 	//	List<GeoPoint> intersections = null;
@@ -72,7 +69,12 @@ public static class GeoPoint {
 		var geoList = findGeoIntersections(ray);
         return geoList == null ? null
                                : geoList.stream().map(gp -> gp.point).collect(Collectors.toList());
+	} */
+	@Override
+	public String toString() {
+		return "GP{" + "G=" + geometry + ", P=" + point + '}';
 	}
+	
 	/**
 	 * an admin function that checks if the objects are equal
 	 */
