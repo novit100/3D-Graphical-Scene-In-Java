@@ -47,7 +47,7 @@ public class SpotLight extends PointLight
     }
     
 /**
- * there is no implementation to "get light" because spotLight extends pointLight and 
+ * there is no implementation to "get light" and "get distance" because spotLight extends pointLight and 
  * the implementation is there.
  */
 }

@@ -26,5 +26,12 @@ public interface LightSource
          * @return normalized vector
          */
         Vector getL(Point3D p);
+        /**
+         * get distance of lightsource from point
+         *
+         * @param p the point
+         * @return the distance
+         */
+        double getDistance(Point3D point);
         
 }

@@ -2,13 +2,9 @@ package renderer;
 
 
 import java.util.MissingResourceException;
-import elements.Camera;
+import elements.*;
 import primitives.Color;
-import primitives.Point3D;
 import primitives.Ray;
-import primitives.Vector;
-import scene.Scene;
-import renderer.BasicRayTracer;
 
 
 /**

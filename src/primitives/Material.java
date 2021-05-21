@@ -10,13 +10,14 @@ package primitives;
  */
 public class Material 
 {
-	public double kD=0;	//difusive mekadem
-    public double kS=0;	//specular mekadem
+	public double kD=0;	//difusive mekadem--how much the light obsetves into the material
+    public double kS=0;	//specular mekadem--how much the light is returnad by the material
     public int nShininess=0;//shininess of the material
-    
+    public double kr=0.0;//mekadem 'hishtakfut'
+    public double kt=0.0;//mekadem shkifut
     //******************setters****************
     /**
-     * set kd
+     * set kd-difusive mekadem--how much the light obsetves into the material
      * @param _kD
      * @return the material itself to allow design pattern of builder- to concatenate calls to setters.
      */
@@ -26,7 +27,7 @@ public class Material
 		return this;
 	}
 	/**
-	 * set ks
+	 * set ks--specular mekadem--how much the light is returnad by the material
 	 * @param _kS
 	 * @return the material itself to allow design pattern of builder- to concatenate calls to setters.
 	 */
@@ -45,6 +46,24 @@ public class Material
 		this.nShininess = _nShininess;
 		return this;
 	}
-    
-    
+	/**
+	 * set kr--reflection-- mekadem hishtakfut
+	 * @param _kr
+	 * @return the material itself to allow design pattern of builder- to concatenate calls to setters.
+	 */
+	public Material setKr(double _kr) 
+	{
+		this.kr = _kr;
+		return this;
+	}  
+	/**
+	 * set kt--transparency--refraction--mekadem shkifut
+	 * @param _kt
+	 * @return the material itself to allow design pattern of builder- to concatenate calls to setters.
+	 */
+	public Material setKt(double _kt) 
+	{
+		this.kt = _kt;
+		return this;
+	}  
 }

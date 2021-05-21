@@ -13,11 +13,35 @@ import geometries.Intersectable.GeoPoint;
 public class Ray {
 	 Point3D p0;//the place that the ray starts
 	 Vector dir;//the direction of the ray 
-	 
+	/**
+	 * for constructing reflected and refracted rays: (the ctor with 3 parameters- p0, v, n)
+	 */
+		private static final double DELTA = 0.01;
 	 //////////// ctor //////////////
 	public Ray(Point3D p0, Vector dir) {
 		this.p0 = p0;
 		this.dir = dir.normalize();
+	}
+	/**
+	 * Let us note that building a beam with moving a point - this is an operation that is repeated three times already, 
+	 * so it is worthwhile to lower it to a separate function.
+	 * The location of the function according to RDD is the fund department.
+	 * Since this is a new fund construction (according to the original point,
+	 * the direction of the fund, the normal vector (on the line it defines the point of the fund head must be moved))
+	 * - we will add the function as another fund builder and update In all relevant places the code so that it will use the new builder of the fund. 
+	 * Of course the permanent DELTA we defined earlier will be transferred to the Ray class
+	 * @param point
+	 * @param lightDirection
+	 * @param norm
+	 */
+	public Ray(Point3D point, Vector lightDirection, Vector norm) {
+		
+		this.dir = lightDirection.normalize();
+		double nV = norm.dotProduct(lightDirection);
+		Vector delta = norm.scale(nV >= 0 ? DELTA : -DELTA);
+		this.p0 = point.add(delta);
+		
+		
 	}
 	/////////////// get //////////////
 	public Point3D getP0() {
@@ -144,22 +168,6 @@ public class Ray {
 	 * @author ronni & nov
 	 *
 	 */
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/**DK if belongs here
