@@ -129,9 +129,9 @@ public class ReflectionRefractionTests {
 				.setViewPlaneSize(300, 300).setDistance(400);
 
 		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
- 
+		scene.setBackground(primitives.Color.RED);
 		scene.geometries.add( //
-				new Sphere(new Point3D(0,50,-800),120) //the green sphere
+				new Sphere(new Point3D(0,50,-800),120) //the green sphere 
 				.setEmmission(new Color(java.awt.Color.green)) //
 				.setMaterial(new Material().setKd(0.6).setKs(0.9).set_nShininess(10000).setKt(0).setKr(1)),
 			
@@ -139,17 +139,22 @@ public class ReflectionRefractionTests {
 				.setEmmission(new Color(100,100,100)) //
 				.setMaterial(new Material().setKd(0).setKs(0.2).set_nShininess(1000).setKt(0.6).setKr(0.2)),
 				
-				new Sphere(new Point3D(-100,20,-790),30) //the tiny black sphere
-				.setEmmission(new Color(30,0,0)) //
+				new Sphere(new Point3D(-100,30,-790),30) //the tiny blue sphere 
+				.setEmmission(new Color(java.awt.Color.blue)) //
 				.setMaterial(new Material().setKd(0).setKs(0).set_nShininess(0).setKt(0).setKr(0)),
+				//
+				new Sphere(new Point3D(0,50,-800),120) //the green sphere
+				.setEmmission(new Color(java.awt.Color.green)) //
+				.setMaterial(new Material().setKd(0.6).setKs(0.9).set_nShininess(10000).setKt(0).setKr(1)),
+			
+				new Sphere(new Point3D(170,-50,-900),300) //the large white sphere
+				.setEmmission(new Color(100,100,100)) //
+				.setMaterial(new Material().setKd(0).setKs(0.2).set_nShininess(1000).setKt(0.6).setKr(0.2)),
 				
-				new Sphere(new Point3D(-50, 20, -100),20) //the pink sphere
-				.setEmmission(new Color(java.awt.Color.pink)) //
-				.setMaterial(new Material().setKd(0).setKs(0.20).set_nShininess(100).setKt(0).setKr(0.1)),
-				 
-				new Triangle(new Point3D(1500, -1500, -1500), new Point3D(-1500, 1500, -1500),//the triangle
 				
-				new Point3D(0, -1400, -2000)).setEmmission(new Color(java.awt.Color.CYAN)).setMaterial(new Material().setKd(0.25).setKs(0.9).set_nShininess(20).setKt(0).setKr(1))); 
+				new Triangle(new Point3D(1500, -1500, -1500), new Point3D(-1500, 1500, 1500),//the triangle
+				
+				new Point3D(0, -1400, -2000)).setEmmission(new Color(java.awt.Color.orange)).setMaterial(new Material().setKd(0.25).setKs(0.9).set_nShininess(20).setKt(0).setKr(1))); 
 
 
 		scene.lights.add(new SpotLight(new Color(200,200,200), new Point3D(1000,-550,1000), new Vector(0,-1,0)) 
@@ -157,7 +162,7 @@ public class ReflectionRefractionTests {
 		scene.lights.add(new PointLight(new Color(300, 500, 500), new Point3D(-50, -50, 50))
 				.setKl(0.00001).setKq(0.000001));
 		
-		ImageWriter imageWriter = new ImageWriter("ourPicRefrectionRefraction", 600, 600);
+		ImageWriter imageWriter = new ImageWriter("ourPicRefrectionRefractionafterdelta", 600, 600);
 		Render render = new Render() //
 				.setImageWriter(imageWriter) //
 				.setCam(camera) //

@@ -26,7 +26,7 @@ public class BasicRayTracer extends RayTracerBase
 	/**
 	 * a constant for size moving first rays for shading rays
 	 */
-	private static final double DELTA = 0.1;
+	private static final double DELTA = 0.01;
 	
 	private static final double INITIAL_K = 1.0;
 	/**
@@ -61,27 +61,27 @@ public class BasicRayTracer extends RayTracerBase
 	
 	
 	/**
-	 * 
-	 * @param refRay
-	 * @return
+	 * @param curRay
+	 * @return GeoPoint to the ray closest intersection Point
 	 */
-	private GeoPoint findClosestIntersection(Ray refRay) {
+	private GeoPoint findClosestIntersection(Ray curRay) {
 		
-		if (refRay == null) {
+		if (curRay == null) {
 			return null;
 		}
 
 		GeoPoint closestPoint = null;
 		double closestDistance = Double.MAX_VALUE;
-		Point3D ray_p0 = refRay.getP0();
-
-		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(refRay);
+		Point3D ray_p0 = curRay.getP0();//the starting point of the ray
+                                        //technically we don't need this variable but we used it in order not to call
+		                                //the function too many times in case there are many intersections
+		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(curRay);
 		if (intersections == null)
 			return null;//no intersection
-
+		double distance=0;
 		for (GeoPoint geoPoint : intersections) //select the closest distance
 		{
-			double distance = ray_p0.distance(geoPoint.point);
+			distance = ray_p0.distance(geoPoint.point);
 			if (distance < closestDistance) 
 			{
 				closestDistance = distance;
@@ -91,18 +91,55 @@ public class BasicRayTracer extends RayTracerBase
 		return closestPoint;
 	}
 	/**
+	 * Non-shading test operation between point and light source
+	 * @param lS -the current light source 
+	 * @param l a vector from the light source to the point 
+	 * @param norm
+	 * @param gp
+	 * @return if the point has no shade return true (and then it'll get light)
+	 */
+	private boolean unshaded(LightSource lS,Vector l, Vector norm, GeoPoint gp) {
+
+		Vector lightDirection = l.scale(-1); // from point to light source
+		Vector delta = norm.scale(norm.dotProduct(lightDirection) > 0 ? DELTA : - DELTA);//if the result is greater than 0 delta=DELTA else delta=-DELTA
+		//there are cases that points in the object can falsely be shaded by the object itself-->  so we used the delta to up lift
+		                                                                                        //the point a-bit to avoid that
+		Point3D point = gp.point.add(delta);//we add it to the point by the normal direction,
+		
+		Ray lightRay = new Ray(point, lightDirection);
+		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+		if (intersections == null)//if there are no intersections with the light ray
+			return true;//the point is unshaded- no one makes shadow on the point
+        //else- there are intersections with the light ray
+		double lightDistance = lS.getDistance(gp.point);//the distance of the point of geoPoint from the light source
+		for (GeoPoint geop : intersections) 
+		{
+			if(geop.geometry.getMaterial().kt==0.0)//only if the material of the geo is "atum"- it makes shadow
+			{
+				//if there is an intersection closer to beginning of ray than our intersection
+				//of geopoint that we got- return false. 
+				//it means, there is something shadowing our intersection of geopoint.
+				if (Util.alignZero(geop.point.distance(gp.point)-lightDistance) <= 0)
+					return false;
+			}
+		}
+		//else- if we didn't find an intersection that is closer to the head of the ray from the distance
+		//between the point to the light source:
+		return true;	
+	}
+	/**
 	 * as func unshaded but returns different val
 	 * returns the amount of the shading
 	 * @param ls
 	 * @param l
-	 * @param n
+	 * @param norm
 	 * @param intersection
 	 * @return the transparency 
 	 */
-	private double transparency(LightSource ls, Vector l, Vector n, GeoPoint intersection) {
+	private double transparency(LightSource ls, Vector l, Vector norm, GeoPoint intersection) {
 		Vector lightDirection = l.scale(-1); // from point to light source
-		Ray lightRay = new Ray(intersection.point, lightDirection, n);
-		double lightDistance = ls.getDistance(intersection.point); 
+		Ray lightRay = new Ray(intersection.point, lightDirection, norm);//taking care of----
+		double lightDistance = ls.getDistance(intersection.point); //the distance of the point of Point from the light source
 		var intersections = scene.geometries.findGeoIntersections(lightRay);
 		if (intersections == null) return 1.0;
 		
@@ -121,41 +158,7 @@ public class BasicRayTracer extends RayTracerBase
 		}
 		return ktr;
 	}
-	/**
-	 * Non-shading test operation between point and light source
-	 * @param lS -the current light source 
-	 * @param l a vector from the light source to the point 
-	 * @param norm
-	 * @param gp
-	 * @return if the point has no shade return true (and then it'll get light)
-	 */
-	private boolean unshaded(LightSource lS,Vector l, Vector norm, GeoPoint gp) {
-
-		Vector lightDirection = l.scale(-1); // from point to light source
-		Vector delta = norm.scale(norm.dotProduct(lightDirection) > 0 ? DELTA : - DELTA);
-		Point3D point = gp.point.add(delta);//we add it to the point by the normal direction,
-		//in order to avoid case that the point is inside the object and we think the object itself makes a shadow on the point.
-		//so we move the point up a little bit.
-		Ray lightRay = new Ray(point, lightDirection);
-		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
-		if (intersections == null)//if there are no intersections with the light ray
-			return true;//the point is unshaded- no one makes shadow on the point
-        //else- there are intersections with the light ray
-		double lightDistance = lS.getDistance(gp.point);//the distance of the point of geoPoint from the light source
-		for (GeoPoint geop : intersections) 
-		{
-			if(geop.geometry.getMaterial().kt==0.0)//only if the material of the geo is "atum"- it makes shadow
-			{
-				//if there is an intersection closer to beginning of ray than our intersection
-				//of geopoint that we got- return false. it means, there is something shadowing our intersection of geopoint.
-				if (Util.alignZero(geop.point.distance(gp.point)-lightDistance) <= 0)
-					return false;
-			}
-		}
-		//else- if we didn't find an intersection that is closer to the head of the ray from the distance
-		//between the point to the light source:
-		return true;	
-	}
+	
 	 
 	///////////////////////////////////// calculations ////////////////////////////////////////
 	/**
@@ -273,7 +276,7 @@ public class BasicRayTracer extends RayTracerBase
 		for (LightSource lightSource : scene.lights) 
 		{
 			Vector l = lightSource.getL(intersection.point).normalized(); 
-			double nl = alignZero(n.dotProduct(l));
+			double nl = alignZero(n.dotProduct(l)); 
 			if (nl * nv > 0) 
 			{ 
 				double ktr = transparency(lightSource, l, n, intersection);

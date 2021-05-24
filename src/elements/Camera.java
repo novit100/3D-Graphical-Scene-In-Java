@@ -84,7 +84,7 @@ public Camera setDistance(double distance_) {
  * 
  * @param nX
  * @param nY
- * @param j
+ * @param j 
  * @param i
  * @return
  */
