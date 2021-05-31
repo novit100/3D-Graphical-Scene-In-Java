@@ -2,6 +2,8 @@
 
 import static primitives.Util.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import geometries.Intersectable.GeoPoint;
@@ -35,6 +37,7 @@ public class BasicRayTracer extends RayTracerBase
 	 */
 	private static final int MAX_CALC_COLOR_LEVEL = 10;
 	private static final double MIN_CALC_COLOR_K = 0.001;
+	private boolean isImprovement=false;//a boolean field that tells us if we want to display the image with improvement or not
 	/////////////////////////////////////////////
 	/**
 	 * constructor that gets the scene we will trace and calls the father's constructor to set it.
@@ -89,6 +92,15 @@ public class BasicRayTracer extends RayTracerBase
 			}
 		}
 		return closestPoint;
+	}
+	/**
+	 * setter to os Ipmrovement
+	 * @param isImp
+	 * @return
+	 */
+	public BasicRayTracer setIsimprovement(boolean isImp) {
+	this.isImprovement=isImp;
+	return this;
 	}
 	/**
 	 * Non-shading test operation between point and light source
@@ -161,6 +173,7 @@ public class BasicRayTracer extends RayTracerBase
 	
 	 
 	///////////////////////////////////// calculations ////////////////////////////////////////
+	
 	/**
 	 * calculates the color of the point that the ray intersect it 
 	 * (we allready get here the closest intersection point)
@@ -249,9 +262,34 @@ public class BasicRayTracer extends RayTracerBase
 			GeoPoint refractedPoint = findClosestIntersection(refractedRay);
 			color = color.add(calcColor(refractedPoint, refractedRay, level - 1, kkt).scale(kt));
 		}
-		return color;
+		///
+		List<Color> listColor=new ArrayList<Color>;///////
+		if(isImprovement)
+			for(int i=0;i<80;i++) {
+				if(level==10)//only in the begining of the recursion we need to add the rays in--------
+				{
+					
+				}
+				else {
+					
+				}
+			}
+		return averageColor(listColor);
 		}
-	
+	/**
+	* return average color
+	* @param listColor
+	* @return color
+	*/
+	private Color averageColor(List<Color> listColor) {
+	int red=0, green=0,blue=0;
+	for (int i = 0; i < listColor.size(); i++) {
+	red+= listColor.get(i).getColor().getRed();
+	green+= listColor.get(i).getColor().getGreen();
+	blue+= listColor.get(i).getColor().getBlue();
+	}
+	return new Color(red/listColor.size(),green/listColor.size(),blue/listColor.size());
+	}
 	
 	
 	/**
@@ -346,7 +384,6 @@ public class BasicRayTracer extends RayTracerBase
 			nl = -nl;
 		return ip.scale(nl * kd);
 	}
-	
 	
 	
 	///////////////// construct ray ///////////////////////////////////////////////
