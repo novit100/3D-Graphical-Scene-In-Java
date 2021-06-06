@@ -16,7 +16,7 @@ public class Triangle extends Polygon{
 	{
 		return super.vertices.get(0);
 	}
-	public Point3D getPoint2() 
+	public Point3D getPoint2()  
 	{
 		return super.vertices.get(1);
 	}

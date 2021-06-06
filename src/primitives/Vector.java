@@ -53,7 +53,22 @@ public class Vector {
 	}
 	
 	/////////////////calculations //////////////////
-	
+
+	/**
+     * returns an orthogonal vector to the plane
+     */
+    public Vector findOrthogonalVectorToPlane()
+    {
+        double x = this.getHead().getX();
+        double y = this.getHead().getY();
+        double z = this.getHead().getZ();
+        double Ax= Math.abs(x), Ay= Math.abs(y), Az= Math.abs(z);
+        if (Ax < Ay)
+            return Ax < Az ?  new Vector(0, -z, y) : new Vector(-y, x, 0);
+        else
+            return Ay < Az ?  new Vector(z, 0, -x) : new Vector(-y, x, 0);
+    }
+
 /**
  * @return return the current normalized vector
  */

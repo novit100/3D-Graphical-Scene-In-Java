@@ -4,6 +4,7 @@ import static primitives.Util.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import geometries.Intersectable.GeoPoint;
@@ -39,6 +40,9 @@ public class BasicRayTracer extends RayTracerBase
 	private static final double MIN_CALC_COLOR_K = 0.001;
 	private boolean isImprovement=false;//a boolean field that tells us if we want to display the image with improvement or not
 	/////////////////////////////////////////////
+	private static final int NUM_OF_RAYES=80;
+	private double chosenDistance = 0;
+	////////////////////////////////////////////
 	/**
 	 * constructor that gets the scene we will trace and calls the father's constructor to set it.
 	 * @param _scene
@@ -47,11 +51,20 @@ public class BasicRayTracer extends RayTracerBase
 	{
 		super(_scene);
 	}
-
-	/**
+	//////////////////   setter     /////////////////////////////////////
+	 
+		/**
+		 * @param chosenDistance
+		 */
+		public void setchosenDistance(double chosenDistance) {
+			this.chosenDistance = chosenDistance;
+			
+		}
+	//////////////     functions    //////////////////////////////////////////		
+	/**CHANGED THE FUNCTION IN STAGE 8 -MINI 1
 	 * @param ray
 	 * @return the color of the pixel that the ray pass through it
-	 */
+	 
 	public Color traceRay(Ray ray)
 	{		
 		GeoPoint pointAndGeo=findClosestIntersection(ray);//calls the function of findinf the closest intersection- the func is in this class 
@@ -60,8 +73,19 @@ public class BasicRayTracer extends RayTracerBase
 		else							//if the ray doesn't intersect anything- return the background color
 			return scene.background;
 	}
-
-	
+    */
+		/**
+		 * 
+		 */
+		@Override
+		public Color traceRay(Ray ray)
+		{
+			List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
+			if (intersections == null)
+				return scene.background;
+			GeoPoint closestPoint = ray.findClosestGeoPoint(intersections);
+			return calcColor(closestPoint, ray);
+		}
 	
 	/**
 	 * @param curRay
@@ -247,35 +271,74 @@ public class BasicRayTracer extends RayTracerBase
 		{
 			return color;
 		}
-
+//the calculation of the reflected 
 		double kr = material.kr, kkr = k * kr;
 		if (kkr > MIN_CALC_COLOR_K) //stop recursion when it gets to the min limit
 		{
-			Ray reflectedRay = constructReflectedRay(geopoint.point, inRay, n);
-			GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
-			color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr).scale(kr));
+			//Ray reflectedRay = constructReflectedRay(geopoint.point, inRay, n);
+			//GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
+			//color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr).scale(kr));
+			List<Ray> reflectedRays = constructReflectedRay(n,geopoint.point,inRay, material.get_gridSize());
+			primitives.Color tempColor1 = scene.background;
+			
+			for(Ray reflectedRay: reflectedRays)
+			{
+				GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
+				
+				if (reflectedPoint != null)
+					tempColor1 = tempColor1.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr).scale(kr));
+				else
+					tempColor1 = tempColor1.add(scene.background.scale(kr));
+			}
+			
+			color = color.add(tempColor1.reduce(reflectedRays.size()));
 		}
+		//the calculation of the refracted 
 		double kt = material.kt, kkt = k * kt;
 		if (kkt > MIN_CALC_COLOR_K) //stop recursion when it gets to the min limit
 		{
-			Ray refractedRay = constructRefractedRay(geopoint.point, inRay, n);
-			GeoPoint refractedPoint = findClosestIntersection(refractedRay);
-			color = color.add(calcColor(refractedPoint, refractedRay, level - 1, kkt).scale(kt));
-		}
-		///
-		List<Color> listColor=new ArrayList<Color>;///////
-		if(isImprovement)
-			for(int i=0;i<80;i++) {
-				if(level==10)//only in the begining of the recursion we need to add the rays in--------
+			if (kkr > MIN_CALC_COLOR_K) {
+				
+				
+				List<Ray> reflectedRays = constructReflectedRay(n,geopoint.point, inRay, material.get_gridSize());
+				primitives.Color tempColor1 = scene.background;
+				
+				for(Ray reflectedRay: reflectedRays)
 				{
+					GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
 					
+					if (reflectedPoint != null)
+						tempColor1 = tempColor1.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr).scale(kr));
+					else
+						tempColor1 = tempColor1.add(scene.background.scale(kr));
 				}
-				else {
-					
+				
+				color = color.add(tempColor1.reduce(reflectedRays.size()));
 				}
-			}
-		return averageColor(listColor);
+			
+				
+			
+			
 		}
+			
+		return color;
+		}
+	//Ray refractedRay = constructRefractedRay(geopoint.point, inRay, n);
+	//GeoPoint refractedPoint = findClosestIntersection(refractedRay);
+	//color = color.add(calcColor(refractedPoint, refractedRay, level - 1, kkt).scale(kt));
+//}
+ 
+//List<Color> listColor=new ArrayList<Color>;///////
+//if(isImprovement)
+	//for(int i=0;i<80;i++) {
+	//	if(level==10)//only in the begining of the recursion we need to add the rays in--------
+	//	{
+			
+	//	}
+	//	else {
+			
+	//	}
+//	}averageColor(listColor)
 	/**
 	* return average color
 	* @param listColor
@@ -388,17 +451,30 @@ public class BasicRayTracer extends RayTracerBase
 	
 	///////////////// construct ray ///////////////////////////////////////////////
 	
-	/**
+	/**irrelevant
 	 * this func returns a new ray- the refracted ray comes from the point because of the light- inRay
 	 * @param pointGeo
 	 * @param inRay
 	 * @param n
 	 * @return RefractedRay
-	 */
+	
 	private Ray constructRefractedRay(Point3D pointGeo, Ray inRay, Vector n) 
 	{
 		return new Ray(pointGeo, inRay.getDir(), n);
-	}
+	} */
+	/**
+	 * 
+	 * @param n
+	 * @param point
+	 * @param ray
+	 * @param DiffusedAndGlossy
+	 * @return
+	 * @throws Exception
+	 */
+	private List<Ray> constructRefractedRays(Vector n, Point3D point, Ray ray, double DiffusedAndGlossy) throws Exception
+    {
+        return RaysOfGrid(n, point, ray.getDir(), 1, DiffusedAndGlossy);
+    }
 
 	/**
 	 * this func returns a new ray- the reflected ray comes from the point because of the light- inRay
@@ -420,4 +496,111 @@ public class BasicRayTracer extends RayTracerBase
 		Vector r = v.substract(n.scale(2 * vn));
 		return new Ray(pointGeo, r, n);
 	}
+	/**
+	 * 
+	 * @param n
+	 * @param point
+	 * @param inRay
+	 * @param glossyVariable
+	 * @return a beam  
+	 */
+	private List<Ray> constructReflectedRay(Vector n,Point3D point, Ray inRay, double glossyVariable) 
+	{
+		return RaysOfGrid(n, point, inRay.getDir(), 1, glossyVariable);
+		
+	}
+	private List<Ray> RaysOfGrid(Vector n, Point3D point, Vector Vto, int direction, double DiffusedAndGlossy)  {
+        double gridSize = DiffusedAndGlossy; //from the Material 
+        int numOfRowCol = isZero(gridSize)? 1: (int)Math.ceil(Math.sqrt(NUM_OF_RAYES));
+        Vector Vup = Vto.findOrthogonalVectorToPlane();//vector in the grid
+        Vector Vright = Vto.crossProduct(Vup);//vector in the grid
+        Point3D centerOfGrid = point.add(Vto.scale(chosenDistance)); // center point of the grid
+        double sizeOfCube = gridSize/numOfRowCol;//size of each cube in the grid
+        List beam = new LinkedList<Ray>();
+        n = n.dotProduct(Vto) > 0 ? n.scale(-direction) : n.scale(direction);//fix the normal direction
+        Point3D tempcenterOfGrid = centerOfGrid;//save the center of the grid
+        Vector tempRayVector;
+        for (int row = 0; row < numOfRowCol; row++)
+        {
+        	double xAsixChange= (row - (numOfRowCol/2d))*sizeOfCube + sizeOfCube/2d;
+        		for(int col = 0; col < numOfRowCol; col++)
+        		{
+        			double yAsixChange= (col - (numOfRowCol/2d))*sizeOfCube + sizeOfCube/2d;
+        			if(xAsixChange != 0) centerOfGrid = centerOfGrid.add(Vright.scale(-xAsixChange)) ;
+        			if(yAsixChange != 0) centerOfGrid = centerOfGrid.add(Vup.scale(-yAsixChange)) ;
+        			tempRayVector = centerOfGrid.subtract(point);
+                	if(n.dotProduct(tempRayVector) < 0 && direction == 1) //refraction
+                		beam.add(new Ray(point, tempRayVector, n));
+                	if(n.dotProduct(tempRayVector) > 0 && direction == -1) //reflection
+                		beam.add(new Ray(point, tempRayVector, n));
+                	centerOfGrid = tempcenterOfGrid;
+        		}
+        }
+        return beam;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * 
+	 * @param light the light source 
+	 * @param l vector between  light source and a given point
+	 * @param n normal to raise the point in £ to fix the floating point problem
+	 * @param geopoint point value on the geometry which the vector cuts
+	 * @return beam of rays from point ,in transparency find the intersection points with all of the rays in the beam and return the ktr for every ray.
+	 * in the end transparency returns the average of ktr from all the rays
+	
+
+	private List<Ray> constructRayBeamThroughPoint(LightSource light, Vector l, Vector n, GeoPoint geopoint){
+		Vector lightDirection = l.scale(-1); // from point to light source
+		Ray lightRay = new Ray(geopoint.point, lightDirection, n);
+		List<Ray> beam = new ArrayList<>();
+		beam.add(lightRay);
+		double r = light.getRadius();
+		if(r==0)return beam;//in case the light is direction light so it doesn't have radius
+		Point3D p0 = lightRay.getP0();
+		Vector v = lightRay.getDir();
+		Vector vx = (new Vector(-v.getHead().getY(), v.getHead().getX(),0)).normalized(); 
+		Vector vy = (v.crossProduct(vx)).normalized();
+
+		Point3D pC = lightRay.getPoint(light.getDistance(p0));
+		for (int i=0; i<NUM_OF_RAYES-1; i++)//number of rays less the direct ray to the light(lightRay)
+		{
+			// create random polar system coordinates of a point in circle of radius r
+			double cosTeta = ThreadLocalRandom.current().nextDouble(-1, 1);
+			double sinTeta = Math.sqrt(1 - cosTeta*cosTeta);
+			double d = ThreadLocalRandom.current().nextDouble(-r, r);
+			// Convert polar coordinates to Cartesian ones
+			double x = d*cosTeta;
+			double y = d*sinTeta;
+			// pC - center of the circle
+			// p0 - start of central ray, v - its direction, distance - from p0 to pC
+			Point3D point = pC;
+			if (!primitives.Util.isZero(x)) point = point.add(vx.scale(x));
+			if (!primitives.Util.isZero(y)) point = point.add(vy.scale(y));
+			beam.add(new Ray(p0, point.subtract(p0))); // normalized inside Ray constructor
+		}
+		return beam;
+	} 
+ */
