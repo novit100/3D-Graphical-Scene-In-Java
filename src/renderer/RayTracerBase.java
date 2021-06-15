@@ -1,5 +1,7 @@
 package renderer;
 
+import java.util.List;
+
 import primitives.Color;
 import primitives.Ray;
 import scene.Scene;
@@ -25,4 +27,5 @@ public RayTracerBase(Scene scene) {
  * @return color
  */
 public abstract Color traceRay(Ray ray) ;
+public abstract Color calcColorForSupersampling(List<Ray> rays);
 }

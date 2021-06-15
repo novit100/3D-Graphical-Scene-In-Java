@@ -1,5 +1,5 @@
 package primitives;
-
+import static primitives.Util.*;
 public class Point3D {
 	final Coordinate x;
 	final Coordinate y;
@@ -60,7 +60,29 @@ public class Point3D {
 		double dis_s =this.distanceSquared(p);
 		return Math.sqrt(dis_s);
 	}
+	/**
+	 * Function to the center of the circle,<br>
+	 * which receives a circle,<br>
+	 * and returns a random point on the circle
+	 * 
+	 * @param dir    The normal exiting the circle,<br>
+	 *               together with the radius or height and length representing the
+	 *               circle,
+	 * @param radius radius of circle
+	 * @return Returns a random point on the circle
+	 */
+	public Point3D randomPointOnRadius(Vector dir, double radius) {
+		double diameter = radius * 2;
+		Point3D p = randomPointOnRectangle(dir, diameter, diameter);
+		double t = p.distance(this);
+		while (t > radius) {
+			p = randomPointOnRectangle(dir, diameter, diameter);
+			t = p.distance(this);
+		}
+		return p;
+	}
 
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -91,5 +113,45 @@ public class Point3D {
 	public String toString() {
 		return "Point3D x=" + x + ", y=" + y + ", z=" + z ;
 	}
-
+	////////////////////////////// blurry and glossy /////////////////////////
+	public Point3D randomPointOnRectangle(Vector dir, double width, double height) {
+		Vector firstNormal = dir.findOrthogonalVectorToPlane();
+		Vector secondNormal = firstNormal.crossProduct(dir).normalize();
+		Point3D randomCirclePoint = this;
+		double r;
+		double wHalf = width / 2;
+		r = random(0, wHalf);
+		double x = random(-r, r);
+		double hHalf = height / 2;
+		r = random(0, hHalf);
+		double y = random(-r, r);
+		if (x != 0)
+			randomCirclePoint = randomCirclePoint.add(firstNormal.scale(x));
+		if (y != 0)
+			randomCirclePoint = randomCirclePoint.add(secondNormal.scale(y));
+		return randomCirclePoint;
+		
+	}
+	/**
+	* find the Absolute minimum Coordinate
+	*
+	* @return if Coordinate x is minimum return 'x'<br>
+	*         if Coordinate y is minimum return 'y'<br>
+	*         if Coordinate z is minimum return 'z'<br>
+	*         if all Coordinates are equal return 'x'
+	*/
+	public char findAbsoluteMinimumCoordinate() {
+	double minimum = this.x.coord < 0 ? -this.x.coord : this.x.coord; // abs(x)
+	char index = 'x';
+	double y = this.y.coord < 0 ? -this.y.coord : this.y.coord; // abs(y)
+	if (y < minimum) {
+	minimum = y;
+	index = 'y';
+	}
+	double z = this.z.coord < 0 ? -this.z.coord : this.z.coord; // abs(z)
+	if (z < minimum) {
+	index = 'z';
+	}
+	return index;
+	}
 }

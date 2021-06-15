@@ -177,4 +177,6 @@ public class Color {
 		return new Color(r / k, g / k, b / k);
 	}
 
+	
+
 }

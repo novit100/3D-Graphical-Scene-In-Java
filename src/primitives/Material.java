@@ -15,8 +15,12 @@ public class Material
     public int nShininess=0;//shininess of the material
     public double kr=0.0;//mekadem 'hishtakfut'
     public double kt=0.0;//mekadem shkifut
-    double gridSize = 0;// size of diffused and glossy grid
-    //******************setters****************
+  //  double gridSize = 0;// size of diffused and glossy grid
+    public double radiusForGlossy = 3;// 
+    public double radiusForBlurry=3;
+   
+	
+	//******************setters****************
     /**
      * set kd-difusive mekadem--how much the light obsetves into the material
      * @param _kD
@@ -68,22 +72,23 @@ public class Material
 		return this;
 	}  
 	/**
-	 * setter to the size of the grid to the 4th change -->glossy surface
-	 * @param gridSize
-	 * @return
+	 * setter to the size of the radius to the 4th change -->glossy surface
+	 * @param radiusForGlossy
 	 */
-	public Material setDiffusedAndGlossy(double gridSize) 
-	{
-			this.gridSize = gridSize;
-			return this;
+	public Material setRadiusForGlossy(double radiusForGlossy) {
+		this.radiusForGlossy = radiusForGlossy;
+		return this;
+		
 	}
 	/**
-	 * get the chosen grid size to the 4th change 
-	 * @return
+	 * 
+	 * @param radiusForBlurry
 	 */
-	public double get_gridSize() 
-	{
-	        return gridSize;
+	public Material setRadiusForBlurry(double radiusForBlurry) {
+		this.radiusForBlurry = radiusForBlurry;
+		return this;
 	}
-
+	
+	
+////
 }

@@ -16,8 +16,14 @@ public class PointLight extends Light implements LightSource
 	private double Kc=1;				//mekadem kc
 	private double Kl=0;				//mekadem kl
 	private double Kq=0;				//mekadem kq
-
+///blurry 
+	private int sharp=0;
 	/* ********* Constructors ***********/
+
+	public PointLight setSharp(int sharp) {
+		this.sharp = sharp;
+		return this;
+	}
 
 	/**
 	 * a new point light

@@ -1,8 +1,12 @@
 package unittests;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import elements.*;
+import geometries.Plane;
+import geometries.Polygon;
 import geometries.Sphere;
 import geometries.Triangle;
 import primitives.*;
@@ -19,164 +23,78 @@ public class ReflectionRefractionTests {
 	private Scene scene = new Scene("Test scene");
 
 	/**
-	 * Produce a picture of a sphere lighted by a spot light
+	 * glussy test
 	 */
 	@Test
-	public void twoSpheres() {
-		Camera camera = new Camera(new Point3D(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-				.setViewPlaneSize(150, 150).setDistance(1000);
+	public void GlassCube() {
 
-		scene.geometries.add( //
-				new Sphere(new Point3D(0, 0, -50),50) //
-				.setEmmission(new Color(java.awt.Color.BLUE)) //
-				.setMaterial(new Material().setKd(0.4).setKs(0.3).set_nShininess(100).setKt(0.3)),
-				new Sphere(new Point3D(0, 0, -50),25) //
-				.setEmmission(new Color(java.awt.Color.RED)) //
-				.setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(100)));
-		scene.lights.add( //
-				new SpotLight(new Color(1000, 600, 0), new Point3D(-100, -100, 500), new Vector(-1, -1, -2)) //
-				.setKl(0.0004).setKq(0.0000006));
+		Scene scene = new Scene("Cube scene");
+		Camera camera = (new Camera(new Point3D(0, 0, -2000), new Vector(0, 0, 1), new Vector(0, 1, 0)))
+				.setDistance(1000).setViewPlaneSize(150, 150);
 
-		Render render = new Render() //
-				.setImageWriter(new ImageWriter("refractionTwoSpheres", 500, 500)) //
-				.setCam(camera) //
-				.setRayTracerBase(new BasicRayTracer(scene));
+		scene.setBackground(new Color(25, 25, 112));
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
+
+		scene.geometries.add(new Polygon( // AEFD
+				new Point3D(0, 0, 0), new Point3D(0, 70, 0), new Point3D(-50, 70, 50), new Point3D(-50, 0, 50))
+						.setEmmission(new Color(105, 105, 105))
+						.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)),
+				new Polygon( // TOP
+						new Point3D(0, 70, 0), new Point3D(-50, 70, 50), new Point3D(0, 70, 100),
+						new Point3D(50, 70, 50)).setEmmission(new Color(105, 105, 105))
+								.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)),
+				new Polygon( // DFHB
+						new Point3D(-50, 0, 50), new Point3D(-50, 70, 50), new Point3D(0, 70, 100),
+						new Point3D(0, 0, 100)).setEmmission(new Color(105, 105, 105))
+								.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)),
+				new Polygon( // BHGC
+						new Point3D(0, 0, 100), new Point3D(0, 70, 100), new Point3D(50, 70, 50),
+						new Point3D(50, 0, 50)).setEmmission(new Color(105, 105, 105))
+								.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)),
+				new Polygon( // CGEA
+						new Point3D(50, 0, 50), new Point3D(50, 70, 50), new Point3D(0, 70, 0), new Point3D(0, 0, 0))
+								.setEmmission(new Color(105, 105, 105))
+								.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)),
+				new Polygon( // BOTTOM
+						new Point3D(0, 0, 0), new Point3D(-50, 0, 50), new Point3D(0, 0, 100), new Point3D(50, 0, 50))
+								.setEmmission(new Color(105, 105, 105))
+								.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0))
+
+				, new Sphere(new Point3D(0, 35, 50), 25).setEmmission(new Color(java.awt.Color.red))
+						.setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(100))
+
+				,
+				new Plane(new Point3D(0, -5, 0), new Vector(0, 1, 0)).setEmmission(new Color(java.awt.Color.DARK_GRAY))
+						.setMaterial(new Material().setKd(0.2).setKs(0).set_nShininess(50).setKt(0).setKr(0.8)
+								.setRadiusForGlossy(0.08))
+
+				,
+				new Sphere(new Point3D(-100, 35, 0), 30).setEmmission(new Color(255, 210, 0))
+						.setMaterial(new Material().setKd(0.3).setKs(0).set_nShininess(900).setKt(0).setKr(0)
+								.setRadiusForGlossy(0.08)),
+				new Sphere(new Point3D(100, 35, 0), 30).setEmmission(new Color(255, 210, 0)).setMaterial(
+						new Material().setKd(0.3).setKs(0).set_nShininess(900).setKt(0).setKr(0).setRadiusForGlossy(0.08))
+
+		);
+
+		scene.lights.addAll(List.of(
+				new SpotLight(new Color(1000, 600, 1000), new Point3D(-100, 100, 100), new Vector(1, -0.4, -1)).setKc(1)
+						.setKl(0.0001).setKq(0.00005),
+				new DirectionalLight(new Color(255, 215, 0), new Vector(-1, -0.4, 1))));
+		int p = 500;
+		ImageWriter imageWriter = new ImageWriter("GlassCube", p, p);
+		Render render = new Render().setImageWriter(imageWriter).setCam(camera)
+				.setRayTracerBase(new BasicRayTracer(scene).setDistanceForBlurryGlossy(80).setNumOfRaysGlossy(100))
+				.setMultithreading(3).setDebugPrint();
+		
 		render.renderImage();
 		render.writeToImage();
-	}
+		// whitin glussy
+		ImageWriter imageWriter1 = new ImageWriter("GlassCube whitin glossy", p, p);
+		Render render1 = new Render().setImageWriter(imageWriter1).setCam(camera)
+				.setRayTracerBase(new BasicRayTracer(scene)).setMultithreading(3).setDebugPrint();
 
-	/**
-	 * Produce a picture of a sphere lighted by a spot light
-	 */
-	@Test
-	public void twoSpheresOnMirrors() {
-		Camera camera = new Camera(new Point3D(0, 0, 10000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-				.setViewPlaneSize(2500, 2500).setDistance(10000); //
-
-		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0.1));
-
-		scene.geometries.add( //
-				new Sphere(new Point3D(-950, -900, -1000),400) //
-				.setEmmission(new Color(0, 0, 100)) //
-				.setMaterial(new Material().setKd(0.25).setKs(0.25).set_nShininess(20).setKt(0.5)),
-				new Sphere(new Point3D(-950, -900, -1000),200) //
-				.setEmmission(new Color(100, 20, 20)) //
-				.setMaterial(new Material().setKd(0.25).setKs(0.25).set_nShininess(20)),
-				new Triangle(new Point3D(1500, -1500, -1500), new Point3D(-1500, 1500, -1500),
-						new Point3D(670, 670, 3000)) //
-				.setEmmission(new Color(20, 20, 20)) //
-				.setMaterial(new Material().setKr(1)),
-				new Triangle(new Point3D(1500, -1500, -1500), new Point3D(-1500, 1500, -1500),
-						new Point3D(-1500, -1500, -2000)) //
-				.setEmmission(new Color(20, 20, 20)) //
-				.setMaterial(new Material().setKr(0.5)));
-
-		scene.lights.add(new SpotLight(new Color(1020, 400, 400), new Point3D(-750, -750, -150), new Vector(-1, -1, -4)) //
-				.setKl(0.00001).setKq(0.000005));
-
-		ImageWriter imageWriter = new ImageWriter("reflectionTwoSpheresMirrored", 500, 500);
-		Render render = new Render() //
-				.setImageWriter(imageWriter) //
-				.setCam(camera) //
-				.setRayTracerBase(new BasicRayTracer(scene));
-
-		render.renderImage();
-		render.writeToImage();
-	}
-
-	/**
-	 * Produce a picture of a two triangles lighted by a spot light with a partially
-	 * transparent Sphere producing partial shadow
-	 */
-	@Test
-	public void trianglesTransparentSphere() {
-		Camera camera = new Camera(new Point3D(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-				.setViewPlaneSize(200, 200).setDistance(1000);
-
-		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
-
-		scene.geometries.add( //
-				new Triangle(new Point3D(-150, -150, -115), new Point3D(150, -150, -135), new Point3D(75, 75, -150)) //
-				.setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(60)), //
-				new Triangle(new Point3D(-150, -150, -115), new Point3D(-70, 70, -140), new Point3D(75, 75, -150)) //
-				.setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(60)), //
-				new Sphere(new Point3D(60, 50, -50),30) //
-				.setEmmission(new Color(java.awt.Color.BLUE)) //
-				.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6)));
-
-		scene.lights.add(new SpotLight(new Color(700, 400, 400), new Point3D(60, 50, 0), new Vector(0, 0, -1)) //
-				.setKl(4E-5).setKq(2E-7));
-
-		ImageWriter imageWriter = new ImageWriter("refractionShadow", 600, 600);
-		Render render = new Render() //
-				.setImageWriter(imageWriter) //
-				.setCam(camera) //
-				.setRayTracerBase(new BasicRayTracer(scene));
-
-		render.renderImage();
-		render.writeToImage();
-	}
-
-	/**
-	 * Produce a picture of a three spheres lighted by a spot light, the red one is a mirror and the smallest is transparency
-	 *  
-	 */
-	@Test
-	public void ourPicture() {
-		
-		 Camera camera = new Camera(new Point3D(0, 0,0), new Vector(0, 0, -1), new Vector(0, -1, 0)) //
-		
-				.setViewPlaneSize(300, 300).setDistance(400);
-
-		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
-		scene.setBackground(new Color(java.awt.Color.BLUE));
-		scene.geometries.add( 
-				//2 eyes
-				//first eye             x   y  depth
-				new Sphere(new Point3D(170,60,-900),120) //the large white sphere
-				.setEmmission(new Color(100,100,100)) //
-				.setMaterial(new Material().setKd(0).setKs(0.2).set_nShininess(1000).setKt(0.6).setKr(0.2)),
-				
-			//	new Sphere(new Point3D(0,50,-790),120) //the green sphere 
-				//.setEmmission(new Color(java.awt.Color.green)) //
-				//.setMaterial(new Material().setKd(0.6).setKs(0.9).set_nShininess(10000).setKt(0).setKr(1)),
-			
-				new Sphere(new Point3D(160,60,-800),40) //the tiny black sphere 
-				.setEmmission(new Color(java.awt.Color.BLACK)) //
-				.setMaterial(new Material().setKd(0).setKs(0).set_nShininess(0).setKt(0).setKr(0)),
-				
-				//second eye
-				new Sphere(new Point3D(-170,60,-900),120) //the large white sphere
-				.setEmmission(new Color(100,100,100)) //
-				.setMaterial(new Material().setKd(0).setKs(0.2).set_nShininess(1000).setKt(0.6).setKr(0.2)),
-				
-				
-			//	new Sphere(new Point3D(0,50,-790),120) //the green sphere
-			//	.setEmmission(new Color(java.awt.Color.green)) //
-			//	.setMaterial(new Material().setKd(0.6).setKs(0.9).set_nShininess(10000).setKt(0).setKr(1)),
-			
-				new Sphere(new Point3D(-160,60,-800),40) //the tiny black sphere 
-				.setEmmission(new Color(java.awt.Color.BLACK)) //
-				.setMaterial(new Material().setKd(0).setKs(0).set_nShininess(0).setKt(0).setKr(0)),
-				
-				new Triangle(new Point3D(-50, 60, -800), new Point3D(50, 60,-800),//the triangle
-				
-				new Point3D(0, 70, -200)).setEmmission(new Color(java.awt.Color.orange)).setMaterial(new Material().setKd(0.25).setKs(0.9).set_nShininess(20).setKt(0).setKr(1))); 
-
-
-		scene.lights.add(new SpotLight(new Color(200,200,200), new Point3D(1000,-550,1000), new Vector(0,-1,0)) 
-				.setKl(4E-5).setKq(2E-7));
-		scene.lights.add(new PointLight(new Color(300, 500, 500), new Point3D(-50, -50, 50))
-				.setKl(0.00001).setKq(0.000001));
-		
-		ImageWriter imageWriter = new ImageWriter("ourPicRefrectionRefractionafterdelta", 600, 600);
-		Render render = new Render() //
-				.setImageWriter(imageWriter) //
-				.setCam(camera) //
-				.setRayTracerBase(new BasicRayTracer(scene));
-
-		render.renderImage();
-		render.writeToImage();
-		
+		render1.renderImage();
+		render1.writeToImage();
 	}
 }

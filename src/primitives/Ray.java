@@ -2,6 +2,7 @@ package primitives;
 import static primitives.Util.*;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import geometries.Intersectable.GeoPoint;
@@ -11,13 +12,13 @@ import geometries.Intersectable.GeoPoint;
  *
  */
 public class Ray {
-	 Point3D p0;//the place that the ray starts
-	 Vector dir;//the direction of the ray 
+	Point3D p0;//the place that the ray starts
+	Vector dir;//the direction of the ray 
 	/**
 	 * for constructing reflected and refracted rays: (the ctor with 3 parameters- p0, v, n)
 	 */
-		private static final double DELTA = 0.01;
-	 //////////// ctor //////////////
+	private static final double DELTA = 0.01;
+	//////////// ctor //////////////
 	public Ray(Point3D p0, Vector dir) {
 		this.p0 = p0;
 		this.dir = dir.normalize();
@@ -35,13 +36,13 @@ public class Ray {
 	 * @param norm
 	 */
 	public Ray(Point3D point, Vector lightDirection, Vector norm) {
-		
+
 		this.dir = lightDirection.normalize();
 		double nV = norm.dotProduct(lightDirection);
 		Vector delta = norm.scale(nV >= 0 ? DELTA : -DELTA);
 		this.p0 = point.add(delta);
-		
-		
+
+
 	}
 	/////////////// get //////////////
 	public Point3D getP0() {
@@ -77,7 +78,7 @@ public class Ray {
 		double dis;
 		Point3D target=lst_point.get(0);//as above...
 		for(int i=1;i<lst_point.size();i++) {//this loop moves through the points of the given list and compares the distances between the 
-			                                 //current point to the starting point of the ray 
+			//current point to the starting point of the ray 
 			dis=p0.distance(lst_point.get(i));
 			if(dis<min_dis) {
 				min_dis=dis;
@@ -85,9 +86,9 @@ public class Ray {
 			}
 		}
 		return target;
-		
+
 	}
-	
+
 	/**
 	 * @param lst_point 
 	 * @return GeoPoint ,the closest point to the ray
@@ -99,7 +100,7 @@ public class Ray {
 		double dis;
 		GeoPoint target=lst_point.get(0);//as above...
 		for(int i=1;i<lst_point.size();i++) {//this loop moves through the points of the given list and compares the distances between the 
-			                                 //current point to the starting point of the ray 
+			//current point to the starting point of the ray 
 			dis=p0.distance(lst_point.get(i).point);
 			if(dis<min_dis) {
 				min_dis=dis;
@@ -107,7 +108,7 @@ public class Ray {
 			}
 		}
 		return target;
-		
+
 	}
 	//////
 	/**
@@ -132,11 +133,48 @@ public class Ray {
 			}
 		}
 		return closestP;	//return the closest point(and the geometry it intersects)-with min distance from p0.
-	
+
 	}
 
-	
-	
+	/**
+	 *
+	 * **For Glassy And Blurry**<br>
+	 * 
+	 * Creates a beam of rays
+	 *
+	 * @param normal    vector for calculate the direction of rays are turning
+	 * @param NumOfRays num of additional rays
+	 * @param radius    of the area for all the rays
+	 * @param distance  of the radius circle from the head of the ray
+	 * @return A list of random rays passing through the given circle including this
+	 *         the ray itself
+	 */
+	public List<Ray> raySplitter(Vector normal, int NumOfRays, double radius, double distance) {
+		double nv = alignZero(normal.dotProduct(dir));
+		List<Ray> splittedRays = new LinkedList<>();
+		Point3D centerCirclePoint = null;
+
+		try {
+			centerCirclePoint = this.getPoint(distance);
+		} catch (Exception e) {
+			centerCirclePoint = p0;
+		}
+		Point3D randomCirclePoint = null;
+		double nr;
+		for (int i = 0; i < NumOfRays; i++) {
+			//we are working within a specific range in order to create the rays inside the range of the "grid" 
+			randomCirclePoint = centerCirclePoint.randomPointOnRadius(dir, radius);//finds a point on the random grid 
+			Vector v = randomCirclePoint.subtract(p0);//creates a vector from the hiting point on surface towards the grid 
+			nr = normal.dotProduct(v);//a dotpoduct between the normal to the surface and the vector we created
+			                         //from the hitting point towards the random grid 
+			//here we are doing the selection between rays that are supposed to be reflected and between rays that are being "swallowed" and we need'nt to take care of them
+			if (checkSign(nr, nv))
+				splittedRays.add(new Ray(p0, v));
+		}
+		splittedRays.add(this);
+		return splittedRays;
+	}
+
 	/////
 	@Override
 	public boolean equals(Object obj) {
@@ -159,55 +197,100 @@ public class Ray {
 			return false;
 		return true;
 	}
+
 	
-	///////////////////////////
-	
-	/**this function gets a scale and returns a new point p0+t*dir
-	 * that means that we multiply the ray by the scale and return the final point
-	 * 
-	 * @author ronni & nov
-	 *
-	 */
-	
-	
-	/**DK if belongs here
-	 * @Override
-    public List<Point3D> findIntersections(Ray ray) {
-        Point3D P0 = ray.getP0();
-        Vector v = ray.getDirection();
 
-        Vector n = _normal;
 
-        if(_q0.equals(P0)){
-            return  null;
-        }
+}
 
-        Vector P0_Q0 = _q0.subtract(P0);
 
-        double mechane = alignZero(n.dotProduct(P0_Q0));
 
-        //
-        if (isZero(mechane)){
-            return null;
-        }
 
-        //mone
-        double nv = alignZero(n.dotProduct(v));
 
-        // ray is lying in the plane axis
-        if(isZero(nv)){
-            return null;
-        }
 
-        double  t = alignZero(mechane / nv);
 
-        if (t <=0){
-            return  null;
-        }
-        Point3D P = ray.getPoint(t);
 
-        return List.of(P);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**this function gets a scale and returns a new point p0+t*dir
+ * that means that we multiply the ray by the scale and return the final point
+ * 
+ * @author ronni & nov
+ *
+ */
+
+
+/**DK if belongs here
+ * @Override
+public List<Point3D> findIntersections(Ray ray) {
+    Point3D P0 = ray.getP0();
+    Vector v = ray.getDirection();
+
+    Vector n = _normal;
+
+    if(_q0.equals(P0)){
+        return  null;
     }
+
+    Vector P0_Q0 = _q0.subtract(P0);
+
+    double mechane = alignZero(n.dotProduct(P0_Q0));
+
+    //
+    if (isZero(mechane)){
+        return null;
+    }
+
+    //mone
+    double nv = alignZero(n.dotProduct(v));
+
+    // ray is lying in the plane axis
+    if(isZero(nv)){
+        return null;
+    }
+
+    double  t = alignZero(mechane / nv);
+
+    if (t <=0){
+        return  null;
+    }
+    Point3D P = ray.getPoint(t);
+
+    return List.of(P);
 }
-	 */
 }
+ */
