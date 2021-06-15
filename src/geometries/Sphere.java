@@ -79,6 +79,17 @@ public String toString()
 * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
 * @see Ray#Ray(Point3D, Vector)
 */
-
+/////mini 2
+@Override
+protected void CreateBoundingBox() {
+	minX = center.getX() - radius;
+	maxX = center.getX() + radius;
+	minY = center.getY() - radius;
+	maxY = center.getY() + radius;
+	minZ = center.getZ() - radius;
+	maxZ = center.getZ() + radius;
+	middleBoxPoint = center;
+	finityShape = true;
+}
 
 }

@@ -5,7 +5,7 @@ import primitives.Material;
 import primitives.Point3D;
 import primitives.Vector;
 
-public abstract class Geometry implements Intersectable{
+public abstract class Geometry extends Intersectable{
 protected Color emmission =new Color(Color.BLACK);
 private Material material=new Material();//the material of the geometry- with special features.
 

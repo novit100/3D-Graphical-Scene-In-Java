@@ -47,13 +47,26 @@ public class Point3D {
 		return p;
 		
 	}
-	public double	distanceSquared(Point3D p) {
+	/**
+	 * public double	distanceSquared(Point3D p) {
 	//	double dis_s=((this.x.coord-p.x.coord)*(this.x.coord-p.x.coord))+((this.y.coord-p.y.coord)*(this.y.coord-p.y.coord))+((this.z.coord-p.z.coord)*(this.z.coord-p.z.coord));
     //	return dis_s;
 		Vector v = this.subtract(p); 
 		return v.dotProduct(v);
 	}
 	
+	/**
+	 * The distance between two points squares
+	 * distanceSquared((x1,y1,z1)(x2,y2,z2))=(x1-x2)^2+(y1-y2)^2+(z1-z2)^2
+	 * 
+	 * @param other
+	 * @return double
+	 */
+	public double distanceSquared(Point3D other) {
+		return (this.x.coord - other.x.coord) * (this.x.coord - other.x.coord)
+				+ (this.y.coord - other.y.coord) * (this.y.coord - other.y.coord)
+				+ (this.z.coord - other.z.coord) * (this.z.coord - other.z.coord);
+	}
 
 
 	public double distance(Point3D p) {

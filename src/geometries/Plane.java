@@ -9,7 +9,10 @@ public class Plane extends Geometry{
 	Point3D q0;
 	Vector normal;
 
-
+	/**
+	 * for given the box some air, for performance
+	 */
+	private static final double DELTA = 0.1;
 	////////////// constructors  /////////////
 	public Plane(Point3D q0, Vector normal) 
 	{
@@ -62,7 +65,35 @@ public class Plane extends Geometry{
 		               return null;
 
 	 */
-
+//////////////////mini  2
+	@Override
+	protected void CreateBoundingBox() {
+		double x = normal.getHead().getX(), y = normal.getHead().getY(), z = normal.getHead().getZ();
+		if (y == 0 && z == 0) {
+			minX = maxX = q0.getX();
+			minX -= DELTA;
+			maxX += DELTA;
+		} else {
+			minX = Double.NEGATIVE_INFINITY;
+			maxX = Double.POSITIVE_INFINITY;
+		}
+		if (x == 0 && z == 0) {
+			minY = maxY = q0.getY();
+			minY -= DELTA;
+			maxY += DELTA;
+		} else {
+			minY = Double.NEGATIVE_INFINITY;
+			maxY = Double.POSITIVE_INFINITY;
+		}
+		if (x == 0 && y == 0) {
+			minZ = maxZ = q0.getZ();
+			minZ -= DELTA;
+			maxZ += DELTA;
+		} else {
+			minZ = Double.NEGATIVE_INFINITY;
+			maxZ = Double.POSITIVE_INFINITY;
+		}
+	}
 
 	/////////// find intersection //////////
 	/**
