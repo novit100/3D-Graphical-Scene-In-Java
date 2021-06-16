@@ -6,6 +6,7 @@ import elements.*;
 import java.util.List;
 import java.util.MissingResourceException;
 
+
 /**
  * Renderer class is responsible for generating pixel color map from a graphic
  * scene, using ImageWriter class
