@@ -471,13 +471,15 @@ public class ReflectionRefractionTestMini {
 				.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)
 						.setRadiusForBlurry(2)),
 				
-				new Sphere(new Point3D(0, 100000, 0), 6000).setEmmission(new Color(java.awt.Color.CYAN))
-				.setMaterial(new Material().setKd(0.9).setKs(0.5).set_nShininess(900)),
+				
 
 				new Triangle(new Point3D(-300, 2000, 0), new Point3D(-300, 2000, 2000),
 						new Point3D(300, 2000, 2000)) //
 				.setEmmission(new Color(java.awt.Color.DARK_GRAY))
-				.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0))
+				.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)),
+				
+				new Sphere(new Point3D(0, 100000, 0), 6000).setEmmission(new Color(java.awt.Color.CYAN))
+				.setMaterial(new Material().setKd(0.9).setKs(0.5).set_nShininess(900))
 				);
 		scene.lights.addAll(List.of(new DirectionalLight(new Color(50, 50, 0), new Vector(0, -1, -500)),
 				new SpotLight(new Color(10, 10, 10), new Point3D(0, 1, 0), new Vector(0, 1, 0)) //

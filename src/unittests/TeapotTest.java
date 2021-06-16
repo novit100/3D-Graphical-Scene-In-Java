@@ -1551,7 +1551,21 @@ public class TeapotTest {
 				new Triangle(pnts[469], pnts[468], pnts[528]).setEmmission(color).setMaterial(mat), //
 				new Triangle(pnts[528], pnts[529], pnts[469]).setEmmission(color).setMaterial(mat), //
 				new Triangle(pnts[470], pnts[469], pnts[529]).setEmmission(color).setMaterial(mat), //
-				new Triangle(pnts[529], pnts[530], pnts[470]).setEmmission(color).setMaterial(mat) //
+				new Triangle(pnts[529], pnts[530], pnts[470]).setEmmission(color).setMaterial(mat), //,
+				new Triangle(
+						new Point3D(0, 20, 20), 
+						new Point3D(0, 20, -1000),
+						new Point3D(-30, 20, 0)) //
+				.setEmmission(new Color(java.awt.Color.DARK_GRAY))
+				.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)
+						.setRadiusForBlurry(2)),
+				
+				
+
+				new Triangle(new Point3D(-300, 2000, 0), new Point3D(-300, 2000, 2000),
+						new Point3D(300, 2000, 2000)) //
+				.setEmmission(new Color(java.awt.Color.DARK_GRAY))
+				.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0))
 		);
 		scene.lights.add(new PointLight(new Color(500, 500, 500), new Point3D(100, 0, -100)) //
 				.setKq(0.000001));
@@ -1565,6 +1579,13 @@ public class TeapotTest {
 				.setMultithreading(3)//
 				.setDebugPrint()//
 		;
+		
+		render = render.setImageWriter(new ImageWriter("whit blurry1", 800, 800))
+				.setRayTracerBase(new BasicRayTracer(scene).setNumOfRaysBlurry(100).setDistanceForBlurryGlossy(80))
+				.setMultithreading(3).setDebugPrint();
+		render.renderImage();
+		render.writeToImage();
+		
 		boolean flag = /* false */true;
 		if (flag) {
 			render.renderImage();
