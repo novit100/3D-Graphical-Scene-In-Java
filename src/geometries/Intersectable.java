@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
  */
 public abstract class Intersectable {
 	/**
-	 * minX, maxX, minY, maxY, minZ, maxZ<br>
-	 * To create a box that is parallel to the axes we need 6 variables,<br>
+	 * minX, maxX, minY, maxY, minZ, maxZ
+	 * To create a box that is parallel to the axes we need 6 variables,
 	 * because there are 8 points of the box double 3 coordinates and each
-	 * coordinate appears 4 times the same<br>
+	 * coordinate appears 4 times the same
 	 * so it is possible to divide 3 * 8/4 = 6
 	 */
 	protected double minX, maxX, minY, maxY, minZ, maxZ;
@@ -30,20 +30,20 @@ public abstract class Intersectable {
 	 */
 	protected Point3D middleBoxPoint;
 	/**
-	 * if the shape are finite shape like sphere = true<br>
+	 * if the shapes are finite shapes like sphere = true
 	 * otherwise if shape are like plane or tube it mean infinity = false
 	 */
 	protected boolean finityShape = false;
 	/**
 	 * To give an option with or without acceleration of speed bounding volume
-	 * Hierarchy<br>
+	 * Hierarchy
 	 * if we wont whit acceleration = true , whitout acceleration = false
 	 */
 	protected boolean BVHactivated = false;
 
 	/**
 	 * 
-	 * Create box for the shape <br>
+	 * Create box for the shape
 	 * set the miniX value to the minimum coordinate x of the shape or collection of
 	 * shape <br>
 	 * set the miniY value to the minimum coordinate y of the shape or collection of
@@ -54,7 +54,7 @@ public abstract class Intersectable {
 	protected abstract void CreateBoundingBox();
 
 	/**
-	 * creating boxes for all shapes in the geometries list<br>
+	 * creating boxes for all shapes in the geometries list
 	 * and setting the bounding to be true
 	 */
 	public void createBox() {
@@ -167,17 +167,7 @@ public abstract class Intersectable {
 
 		//////////////// admin ////////////////////////
 
-		/**
-		 * 
-		 * @param ray
-		 * @return
-		 * 
-		 *         public List<GeoPoint> findGeoIntersections(Ray ray) { //
-		 *         List<GeoPoint> intersections = null; // for(int
-		 *         i=0;i<(Scene.geometries).length();i++) { var geoList =
-		 *         findGeoIntersections(ray); return geoList == null ? null :
-		 *         geoList.stream().map(gp -> gp.point).collect(Collectors.toList()); }
-		 */
+	
 		@Override
 		public String toString() {
 			return "GP{" + "G=" + geometry + ", P=" + point + '}';

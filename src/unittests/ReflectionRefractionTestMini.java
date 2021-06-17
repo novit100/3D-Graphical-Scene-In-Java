@@ -176,19 +176,6 @@ public class ReflectionRefractionTestMini {
 		render.writeToImage();
 
 	}
-
-	// Render render = new Render() //
-	// .setImageWriter(imageWriter) //
-	// .setCam(camera) //
-	// .setRayTracerBase(new
-	// BasicRayTracer(scene).setIsimprovement(true).setNumOfRaysGlossy(25).setDistanceForBlurryGlossy(2)).setDebugPrint().setMultithreading(3);
-
-	// Render render = new Render() //
-	// .setImageWriter(imageWriter) //
-	// .setCam(camera) //
-	// .setRayTracerBase(new
-	// BasicRayTracer(scene).setIsimprovement(true).setNumOfRaysGlossy(25));
-
 	/**
 	 * glossy test
 	 */
@@ -202,37 +189,7 @@ public class ReflectionRefractionTestMini {
 		scene.setBackground(new Color(25, 25, 112));
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
 
-		scene.geometries.add(/*
-		 * new Polygon( // AEFD
-		 * 
-		 * new Point3D(0, 0, 0), new Point3D(0, 70, 0), new Point3D(-50, 70, 50), new
-		 * Point3D(-50, 0, 50))
-		 * 
-		 * .setEmmission(new Color(105, 105, 105)) .setMaterial(new
-		 * Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)), new
-		 * Polygon( // TOP new Point3D(0, 70, 0), new Point3D(-50, 70, 50), new
-		 * Point3D(0, 70, 100), new Point3D(50, 70, 50)).setEmmission(new Color(105,
-		 * 105, 105)) .setMaterial(new
-		 * Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)), new
-		 * Polygon( // DFHB new Point3D(-50, 0, 50), new Point3D(-50, 70, 50), new
-		 * Point3D(0, 70, 100), new Point3D(0, 0, 100)).setEmmission(new Color(105, 105,
-		 * 105)) .setMaterial(new
-		 * Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)), new
-		 * Polygon( // BHGC new Point3D(0, 0, 100), new Point3D(0, 70, 100), new
-		 * Point3D(50, 70, 50), new Point3D(50, 0, 50)).setEmmission(new Color(105, 105,
-		 * 105)) .setMaterial(new
-		 * Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)), new
-		 * Polygon( // CGEA new Point3D(50, 0, 50), new Point3D(50, 70, 50), new
-		 * Point3D(0, 70, 0), new Point3D(0, 0, 0)) .setEmmission(new Color(105, 105,
-		 * 105)) .setMaterial(new
-		 * Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)), new
-		 * Polygon( // BOTTOM new Point3D(0, 0, 0), new Point3D(-50, 0, 50), new
-		 * Point3D(0, 0, 100), new Point3D(50, 0, 50)) .setEmmission(new Color(105, 105,
-		 * 105)) .setMaterial(new
-		 * Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0))
-		 * 
-		 * ,
-		 */
+		scene.geometries.add(
 				new Sphere(new Point3D(0, 35, 50), 25).setEmmission(new Color(java.awt.Color.blue))
 				.setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(100))
 
@@ -286,58 +243,6 @@ public class ReflectionRefractionTestMini {
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 0.15));
 		scene.geometries.add(
-				// new Polygon(new Point3D(-500, -500, 500), new Point3D(500, -500, 500), new
-				// Point3D(500, -700, 250),
-				// new Point3D(-500, -700, 250)).setEmmission(new
-				// Color(java.awt.Color.DARK_GRAY))
-				/// .setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(900)), //
-				// SIDE BACK
-				// new Polygon(new Point3D(-500, 500, 500), new Point3D(500, 500, 500), new
-				// Point3D(500, 700, 250),
-				// new Point3D(-500, 700, 250)).setEmmission(new
-				// Color(java.awt.Color.DARK_GRAY))
-				// .setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(900)), //
-				// side front
-				// new Polygon(new Point3D(500, -500, 500), new Point3D(500, 500, 500), new
-				// Point3D(500, 700, 250),
-				// new Point3D(500, -700, 250)).setEmmission(new
-				// Color(java.awt.Color.DARK_GRAY))
-				// .setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(900)), //
-				// side RIGHT
-				// new Polygon(new Point3D(-500, -500, 500), new Point3D(-500, -700, 250), new
-				// Point3D(-500, 700, 250),
-				// new Point3D(-500, 500, 500)).setEmmission(new
-				// Color(java.awt.Color.DARK_GRAY))
-				// .setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(900)), //
-				// side left
-				// new Polygon(new Point3D(-500, -500, 500), new Point3D(500, -500, 500), new
-				// Point3D(500, 500, 500),
-				// new Point3D(-500, 500, 500)).setEmmission(new
-				// Color(java.awt.Color.DARK_GRAY))
-				// .setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(900)), // up
-				// side
-
-				// new Polygon(new Point3D(-400, 500, 0), new Point3D(-400, 700, 250), new
-				// Point3D(-400, -700, 250),
-				// new Point3D(-400, -500, 0)).setEmmission(new Color(java.awt.Color.DARK_GRAY))
-				// .setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(900)), //
-				// LEFT SIDE DOWN
-				// new Polygon(new Point3D(400, -700, 250), new Point3D(400, 700, 250), new
-				// Point3D(400, 500, 0),
-				// new Point3D(400, -500, 0)).setEmmission(new Color(java.awt.Color.DARK_GRAY))
-				// .setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(900)), //
-				// RIGTH SIDE DOWN
-				// new Polygon(new Point3D(400, 700, 250), new Point3D(-400, 700, 250), new
-				// Point3D(-400, 500, 0),
-				// new Point3D(400, 500, 0)).setEmmission(new Color(java.awt.Color.DARK_GRAY))
-				// .setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(900)), //
-				// front down
-				// new Polygon(new Point3D(-400, -700, 250), new Point3D(400, -700, 250), new
-				// Point3D(400, -500, 0),
-				// new Point3D(-400, -500, 0)).setEmmission(new Color(java.awt.Color.DARK_GRAY))
-				// .setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(900)), //
-				// back down
-
 				new Triangle(new Point3D(490, -350, 150), new Point3D(490, 0, 150), new Point3D(100, 350, 150)) //
 				.setMaterial(new Material().setKd(0.5).setKs(0.5).set_nShininess(900))
 				.setEmmission(new Color(java.awt.Color.gray)), //
@@ -432,11 +337,7 @@ public class ReflectionRefractionTestMini {
 				);
 
 		scene.lights.addAll(List.of(new DirectionalLight(new Color(50, 50, 0), new Vector(0, -1, -500)),
-				// ((SpotLight) new SpotLight(new Color(400, 240, 500), new Point3D(-500, -1000,
-				// 3000),
-				// new Point3D(0, 0, 700)) //
-				// .setKl(1E-5).setKq(1.5E-7)),.setEmission(new Color(java.awt.Color.DARK_GRAY))
-
+				
 				new SpotLight(new Color(30, 1000, 1000), new Point3D(0, 1020, 700), new Vector(0, -1, 0)) //
 				.setKl(1E-5).setKq(1.5E-7)));
 		int p = 700;

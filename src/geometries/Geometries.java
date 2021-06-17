@@ -184,6 +184,9 @@ public class Geometries extends Intersectable {
 	 * in case a ray does not cut the box all the boxes inside it are probably not
 	 * cut.
 	 *
+	 *
+	 *
+	 *
 	 * @param finiteShapes the list of finite Shapes
 	 * @return a list of shapes present tree of geometries
 	 */
