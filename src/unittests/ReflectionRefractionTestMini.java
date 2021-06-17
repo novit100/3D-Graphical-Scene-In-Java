@@ -452,6 +452,7 @@ public class ReflectionRefractionTestMini {
 		render.renderImage();
 		render.writeToImage();
 	}
+
 	/**
 	 * 
 	 */
@@ -463,7 +464,8 @@ public class ReflectionRefractionTestMini {
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(Color.RED, 0.15));
 		scene.geometries.add(
-				new Triangle(
+			 	new Triangle(
+		
 						new Point3D(300, 2000, 2000), 
 						new Point3D(300, 2000, 0),
 						new Point3D(-300, 2000, 0)) //
@@ -471,12 +473,12 @@ public class ReflectionRefractionTestMini {
 				.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)
 						.setRadiusForBlurry(2)),
 				
-				
-
 				new Triangle(new Point3D(-300, 2000, 0), new Point3D(-300, 2000, 2000),
 						new Point3D(300, 2000, 2000)) //
 				.setEmmission(new Color(java.awt.Color.DARK_GRAY))
 				.setMaterial(new Material().setKd(0.2).setKs(0.2).set_nShininess(30).setKt(0.6).setKr(0)),
+				
+			
 				
 				new Sphere(new Point3D(0, 100000, 0), 6000).setEmmission(new Color(java.awt.Color.CYAN))
 				.setMaterial(new Material().setKd(0.9).setKs(0.5).set_nShininess(900))

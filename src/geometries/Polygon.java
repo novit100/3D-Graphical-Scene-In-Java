@@ -120,4 +120,6 @@ public class Polygon extends Geometry {
 		middleBoxPoint = getMiddlePoint();
 		finityShape = true;
 	}
+
+
 }

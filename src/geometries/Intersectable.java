@@ -30,8 +30,8 @@ public abstract class Intersectable {
 	 */
 	protected Point3D middleBoxPoint;
 	/**
-	 * if the shape are finite shape like sphere or cylinder = true<br>
-	 * other wise if shape are like plane or tube it mean infinity = false
+	 * if the shape are finite shape like sphere = true<br>
+	 * otherwise if shape are like plane or tube it mean infinity = false
 	 */
 	protected boolean finityShape = false;
 	/**
@@ -127,8 +127,6 @@ public abstract class Intersectable {
 	public List<GeoPoint> findIntersectWithBoundedBox(Ray ray) {
 		return BVHactivated && !isIntersectWithTheBox(ray) ? null : findGeoIntersections(ray);
 	}
-
-
 
 	/**
 	 * just for the tests until stage 6:

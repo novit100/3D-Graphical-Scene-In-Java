@@ -128,7 +128,7 @@ public class Point3D {
 	}
 	////////////////////////////// blurry and glossy /////////////////////////
 	public Point3D randomPointOnRectangle(Vector dir, double width, double height) {
-		Vector firstNormal = dir.findOrthogonalVectorToPlane();
+		Vector firstNormal = dir.createOrthogonalVector();
 		Vector secondNormal = firstNormal.crossProduct(dir).normalize();
 		Point3D randomCirclePoint = this;
 		double r;

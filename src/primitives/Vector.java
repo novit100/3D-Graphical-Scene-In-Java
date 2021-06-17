@@ -68,6 +68,29 @@ public class Vector {
         else
             return Ay < Az ?  new Vector(z, 0, -x) : new Vector(-y, x, 0);
     }
+    //
+    /**
+    * This function return a Vertical Vector to "this" vector <br>
+    * (this) most be normalized!!!
+    *
+    * @return normal vector Vertical to this
+    */
+    public Vector createOrthogonalVector() {
+    double x = head.x.coord, y = head.y.coord, z = head.z.coord;
+    switch (head.findAbsoluteMinimumCoordinate()) {
+    case 'x': {
+    return new Vector(0, -z, y).normalize();
+    }
+    case 'y': {
+    return new Vector(-z, 0, x).normalize();
+    }
+    case 'z': {
+    return new Vector(y, -x, 0).normalize();
+    }
+    default:
+    throw new IllegalArgumentException("Unexpected value: " + head.findAbsoluteMinimumCoordinate());
+    }
+    }   
 
 /**
  * @return return the current normalized vector
